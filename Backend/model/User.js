@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
    {
-    name: {
+    firstname: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, 'Firstname is required'],
+      trim: true,                                   //removes whitespaces
+      minlength: [2, 'Name must be at least 2 characters'],
+      maxlength: [50, 'Name cannot exceed 50 characters'],
+    },
+    lastname: {
+      type: String,
+      required: [true, 'Lastname is required'],
       trim: true,                                   //removes whitespaces
       minlength: [2, 'Name must be at least 2 characters'],
       maxlength: [50, 'Name cannot exceed 50 characters'],
