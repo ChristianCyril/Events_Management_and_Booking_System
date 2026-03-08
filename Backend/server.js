@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/connectDB.js';
 import corsOption from './config/corsOption.js'
+//route imports
+import Registration from './routes/api/registration.js'
 
 connectDB();
 const app = express();
@@ -13,7 +15,8 @@ const PORT = process.env.PORT || 3500;
 app.use(cors(corsOption));
 app.use(express.json());
 
-
+//routes
+app.use('/register',Registration);
 
 mongoose.connection.once('open',()=>{
   app.listen(PORT,()=>{
