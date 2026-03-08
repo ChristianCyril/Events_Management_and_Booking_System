@@ -29,7 +29,7 @@ const handleAuthentication = async (req,res)=>{
   foundUser.refreshToken = refreshToken;
   try{
      const result = await foundUser.save();
-     res.status(200).json(accessToken)
+     res.status(200).json({"accessToken":accessToken,"role":foundUser.role ,"id":foundUser._id.toString()});
   }catch(error){
     console.error(error);
   }

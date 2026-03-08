@@ -5,7 +5,6 @@ const handleRefresh= async (req,res)=>{
   const cookies = req.cookies;
   if(!cookies) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
-  console.log(refreshToken);
   if(!refreshToken) return res.sendStatus(401);
   // find user
   const foundUser = await User.findOne({refreshToken: refreshToken}).exec();
@@ -24,7 +23,7 @@ const handleRefresh= async (req,res)=>{
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: '1h'}
       );
-      res.status(200).json({accessToken});
+      res.status(200).json({"accessToken":accessToken,"role":foundUser.role ,"id":foundUser._id.toString()});
     }
   );
 }
