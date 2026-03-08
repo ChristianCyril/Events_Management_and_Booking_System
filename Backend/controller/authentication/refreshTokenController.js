@@ -1,0 +1,32 @@
+import jwt from 'jsonwebtoken'
+import User from '../../model/User.js'
+
+const handleRefresh= async (req,res)=>{
+  const cookies = req.cookies;
+  if(!cookies) return res.sendStatus(401);
+  const refreshToken = cookies.jwt;
+  console.log(refreshToken);
+  if(!refreshToken) return res.sendStatus(401);
+  // find user
+  const foundUser = await User.findOne({refreshToken: refreshToken}).exec();
+  if(!foundUser) return res.sendStatus(403);
+  //check jwt
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    (error,decoded)=>{
+      if(error) {
+        console.error(error);
+        return res.sendStatus(403);
+      }
+      const accessToken = jwt.sign(
+        {id:foundUser._id.toString(), role:foundUser.role},
+        process.env.ACCESS_TOKEN_SECRET,
+        {expiresIn: '1h'}
+      );
+      res.status(200).json({accessToken});
+    }
+  );
+}
+
+export default handleRefresh;
