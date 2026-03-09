@@ -16,12 +16,12 @@ const handleRefresh= async (req,res)=>{
     (error,decoded)=>{
       if(error) {
         console.error(error);
-        return res.sendStatus(403);
+        return res.sendStatus(401);
       }
       const accessToken = jwt.sign(
         {id:foundUser._id.toString(), role:foundUser.role},
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn: '1h'}
+        {expiresIn: '15m'}
       );
       res.status(200).json({"accessToken":accessToken,"role":foundUser.role ,"id":foundUser._id.toString()});
     }
