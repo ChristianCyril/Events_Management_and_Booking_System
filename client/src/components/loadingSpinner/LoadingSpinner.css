@@ -3,7 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 200px;
+  height:100vh;
+  background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 20%, #a1c4fd 100%); 
 }
 
 .spinner {
