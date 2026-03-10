@@ -24,12 +24,12 @@ const handleAuthentication = async (req,res)=>{
     {expiresIn: '1d'}
   );
   //sending refresh token as http only cookie
-  res.cookie('jwt',refreshToken,{httpOnly: true, sameSite: 'None',/*secure: true,*/maxAge:24*60*60*1000});
+  res.cookie('jwt',refreshToken,{httpOnly: true, sameSite: 'None',secure: true,maxAge:24*60*60*1000});
   // saving refresh token
   foundUser.refreshToken = refreshToken;
   try{
      const result = await foundUser.save();
-     res.status(200).json({"accessToken":accessToken,"role":foundUser.role ,"id":foundUser._id.toString()});
+     res.status(200).json({"accessToken":accessToken,"role":foundUser.role });
   }catch(error){
     console.error(error);
   }

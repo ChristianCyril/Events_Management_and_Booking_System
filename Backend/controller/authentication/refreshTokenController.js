@@ -23,7 +23,7 @@ const handleRefresh= async (req,res)=>{
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: '15m'}
       );
-      res.status(200).json({"accessToken":accessToken,"role":foundUser.role ,"id":foundUser._id.toString()});
+      res.status(200).json({"accessToken":accessToken,"role":foundUser.role });
     }
   );
 }

@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { apiPrivate,api } from "../api/axios";
 import useAuth from "./useAuth";
+import { useNavigate } from "react-router-dom";
 
 const useApiPrivate = () => {
+  navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   useEffect(() => {
     //request interceptor which atatches access token and role to every request
@@ -35,6 +37,7 @@ const useApiPrivate = () => {
             return apiPrivate(originalRequest);
           } catch (refreshError) {
             setAuth({});
+            navigate('/login');
             return Promise.reject(refreshError);
           }
         }
