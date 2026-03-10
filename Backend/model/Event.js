@@ -72,7 +72,7 @@ const eventSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Max bookings per user is required'],
       min: [1, 'Max bookings per user must be at least 1'],
-      validate: {
+      validate: {                                                     // custom validator
         validator: function (value) {
           return value <= this.capacity
         },
@@ -81,7 +81,7 @@ const eventSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'User',                                                      //just like a FK. Can be used to get the full User
       required: true,
     },
   },
@@ -93,11 +93,10 @@ const eventSchema = new mongoose.Schema(
 // Automatically set seatsRemaining to capacity when event is first created
 /* It acts like an automatic "trigger" that runs internal logic every time an 
 Event document is about to be written to MongoDB.(Mongoose Middleware) */
-eventSchema.pre('save', function (next) {
+eventSchema.pre('save', function () {
   if (this.isNew) {
     this.seatsRemaining = this.capacity
   }
-  next()
 })
 
 export default mongoose.model('Event', eventSchema);
