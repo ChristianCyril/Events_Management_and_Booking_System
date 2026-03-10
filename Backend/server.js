@@ -12,7 +12,8 @@ import refresh from './routes/api/refresh.js'
 import verifyJWT from './middleware/verifyJWT.js';
 import test from './routes/api/test.js'
 import logout from './routes/api/logout.js'
-import createEvent from './routes/api/events/createEvent.js';
+import eventAdmin from './routes/api/events-admin/event-admin.js';
+import event from './routes/api/event.js'
 
 connectDB();
 const app = express();
@@ -28,8 +29,10 @@ app.use('/register',registration);
 app.use('/login',authentication);
 app.use('/refresh',refresh);
 app.use('/logout',logout);
+app.use('/event',event)
+
 app.use(verifyJWT);          //jwt verification middleware
-app.use('/create-event', createEvent);
+app.use('/admin/event', eventAdmin);
 app.use('/test',test);
 
 
