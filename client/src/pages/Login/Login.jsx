@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Login.css";
 import useAuth from "../../hooks/useAuth";
 import { api } from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +12,7 @@ function Login() {
   const [invalidCred, setInvalidCred] = useState(false);
   const [somethingWrong, setSomethingWrong] = useState(false);
   const {setAuth, auth} = useAuth();
-
+  const navigate = useNavigate()
   const handleChange = (e)=>{
     const {name,value} = e.target;
     setFormValues({...formValues,[name]:value});
@@ -38,6 +39,7 @@ function Login() {
         if(response.data){
           setAuth(response.data);
         }
+        navigate('/bookings');
       }catch(error){
         if(error.response?.status === 401){
           setInvalidCred(true);
@@ -52,7 +54,7 @@ function Login() {
       }
     }
   }
-
+  useEffect(()=>{console.log(auth)},[auth])
   return (
     <div className="login-page">
       <form className="login-card" onSubmit={handleSubmit}>
