@@ -16,7 +16,7 @@ const handleAuthentication = async (req, res) => {
   const accessToken = jwt.sign(
     { userId: foundUser._id, role: foundUser.role },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '30s' }
+    { expiresIn: '3000s' }
   );
   const refreshToken = jwt.sign(
     { userId: foundUser._id },

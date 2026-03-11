@@ -6,6 +6,9 @@ const router = express.Router();
 router.route('/')
   .get(handleGetEvents);
 
-router.get('/:id',handleSingleEvent)
+router.route('/:id')
+  .get(handleSingleEvent)
+  
+
 export default router;
 
