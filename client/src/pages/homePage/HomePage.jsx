@@ -1,7 +1,8 @@
 import './HomePage.css'
+import EventCard from '../../components/event-components/EventCard'
 
 function Homepage(){
-  return <div>HomePage</div>
+  return 
 }
 
 export default Homepage
