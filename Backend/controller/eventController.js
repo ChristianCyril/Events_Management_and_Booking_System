@@ -1,6 +1,6 @@
-import Event from "../../model/Event.js";
+import Event from "../model/Event.js";
 
-const createEvent = async (req, res) => {
+export const createEvent = async (req, res) => {
   //Validating data in req body
   if (!req.body.title) return res.status(400).json({ message: "Title is required" });
   if (!req.body.description) return res.status(400).json({ message: "Description is required" });
@@ -41,4 +41,27 @@ const createEvent = async (req, res) => {
   }
 }
 
-export default createEvent
+
+export const handleGetEvents = async (req, res) => {
+  try {
+    const events = await Event.find().exec();
+    if(events){
+      res.status(200).json(events)
+    }
+  }catch(error){
+    console.error(error)
+  }
+}
+
+export const handleSingleEvent = async (req, res) => {
+  if(!req.params?.id) return res.status(400).json({"message":'Event Id has not been found in params'});
+  const eventId = req.params.id
+  try {
+    const event = await Event.findOne({_id: eventId}).exec();
+    if(!event) return res.status(404).json({"message":'Event does not exist'})
+    res.status(200).json(event);
+  }catch(error){
+    console.error(error)
+  }
+}
+
