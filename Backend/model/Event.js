@@ -83,7 +83,17 @@ const eventSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',                                                      //just like a FK. Can be used to get the full User
       required: true,
-    },
+    }, 
+    image: {
+      url: {
+        type: String,
+        default: '',
+      },
+      publicId: {
+        type: String,
+        default: '',
+      },
+    }
   },
   {
     timestamps: true,
