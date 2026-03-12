@@ -1,0 +1,30 @@
+import { NavLink } from "react-router-dom";
+import "./UserHeader.css";
+
+export default function UserHeader() {
+  return (
+    <header className="header">
+      <div className="header-inner">
+        <div className="nav-left">
+          <div className="genHedTitle">Ngola Events</div>
+          <NavLink to="/homepage" className="nav-item">About</NavLink >
+        </div>
+        <div className="header-search">
+          <input
+            type="text"
+            placeholder="Search events..."
+            className="search-input"
+          />
+        </div>
+        <nav className="nav-right">
+          <NavLink to="/homepage" className="nav-item">Home</NavLink >
+          <NavLink to="/bookings:id" className="nav-item">Bookings</NavLink >
+          <NavLink to="/login" className="nav-item">Logout</NavLink >
+          <div className="profile-icon">
+            <img src="/user-icon.png" className="profile-img"/>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+}
