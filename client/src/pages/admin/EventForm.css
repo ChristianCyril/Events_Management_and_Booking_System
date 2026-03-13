@@ -1,0 +1,167 @@
+/* page layout */
+
+.event-form-page{
+  margin-top:70px;      /* header height */
+  margin-left:160px;    /* sidebar width */
+
+  min-height:calc(100vh - 70px);
+
+  display:flex;
+  justify-content:center;
+  padding:40px 20px;
+
+  background: linear-gradient(to right, #e1eec3, #f05053a6);
+}
+
+
+/* form container */
+
+.event-form{
+  width:100%;
+  max-width:700px;
+
+  background:white;
+
+  padding:32px;
+  border-radius:12px;
+
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+
+/* title */
+
+.event-form h2{
+  margin-bottom:24px;
+  font-size:24px;
+  font-weight:600;
+}
+
+
+/* form groups */
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:18px;
+}
+
+
+/* labels */
+
+.form-group label{
+  font-weight:500;
+  margin-bottom:6px;
+  font-size:14px;
+}
+
+
+/* inputs */
+
+.event-form input,
+.event-form textarea{
+  padding:10px 12px;
+
+  border:1px solid #ddd;
+  border-radius:6px;
+
+  font-size:14px;
+  outline:none;
+
+  transition:all 0.2s ease;
+}
+
+.event-form input:focus,
+.event-form textarea:focus{
+  border-color:#ff6b4a;
+  box-shadow:0 0 0 2px rgba(255,107,74,0.15);
+}
+
+
+/* row layout */
+
+.form-row{
+  display:flex;
+  gap:16px;
+}
+
+.form-row .form-group{
+  flex:1;
+}
+
+
+/* image preview */
+
+.image-preview{
+  margin-top:10px;
+
+  width:100%;
+  max-height:240px;
+
+  object-fit:cover;
+  border-radius:8px;
+}
+
+
+/* edit page note */
+
+.current-image-note{
+  font-size:13px;
+  color:#666;
+  margin-top:6px;
+}
+
+
+/* errors */
+
+.error-message{
+  color:#e63946;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+
+/* server error */
+
+.server-error{
+  background:#ffe5e5;
+  color:#c1121f;
+
+  padding:10px 12px;
+  border-radius:6px;
+
+  margin-bottom:16px;
+  font-size:14px;
+}
+
+
+/* submit button */
+
+.event-form button{
+  width:100%;
+
+  padding:12px;
+
+  background:#ff6b4a;
+  color:white;
+
+  border:none;
+  border-radius:6px;
+
+  font-size:15px;
+  font-weight:500;
+
+  cursor:pointer;
+  transition:all 0.2s ease;
+
+  margin-top:10px;
+}
+
+.event-form button:hover{
+  background:#ff5733;
+}
+
+.event-form button:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}

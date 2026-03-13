@@ -1,0 +1,10 @@
+.homepage{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 70px;
+}
+
+

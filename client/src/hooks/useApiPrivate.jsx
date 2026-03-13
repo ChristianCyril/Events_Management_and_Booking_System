@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router-dom";
 
 const useApiPrivate = () => {
-  navigate = useNavigate();
+ const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   useEffect(() => {
     //request interceptor which atatches access token and role to every request

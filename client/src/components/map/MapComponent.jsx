@@ -19,7 +19,7 @@ export default function MapComponent({ lat, lng, address }) {
         key={`${lat}-${lng}`}
         center={[lat, lng]}
         zoom={15}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"

@@ -8,6 +8,8 @@ import PersistLogin from './components/PersistLogin';
 import Dashboard from './pages/admin/Dashboard';
 import Homepage from './pages/HomePage/HomePage';
 import EventDetailsPage from './pages/event-details/EventDetails'
+import CreateEvent from './pages/admin/CreateEvent';
+import EditEvent from './pages/admin/EditEvent';
 
 
 
@@ -20,6 +22,8 @@ function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/homepage' element={<Homepage />} />
       <Route path='/event' element={<EventDetailsPage/>} />
+      <Route path='/create-event' element={<CreateEvent/>} />
+      <Route path='/edit-event' element={<EditEvent/>} />
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
