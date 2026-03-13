@@ -11,6 +11,7 @@
   display:flex;
   align-items:center;
   z-index:1000;
+  
 }
 
 .gen-header .header-inner{
@@ -19,7 +20,7 @@
   max-width: 1200px;
   justify-content:space-between;
   align-items:center;
-  gap: 140px;
+  gap: 190px;
   margin-left:20px;
 }
 

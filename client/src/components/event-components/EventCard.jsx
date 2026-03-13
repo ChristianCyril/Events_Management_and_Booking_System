@@ -1,16 +1,6 @@
 import './EventCard.css'
 
-function EventCard(){
-  const event={
-    image: "/images/concert.jpg",
-    title: "Summer Music Festival",
-    date: "Aug 12, 2026",
-    time: "18:30",
-    seatsRemaining: 45,
-    price: 5000,
-    location: "Yaoundé Cultural Center"
-  }
-
+function EventCard({event}){
   return (
     <div className="event-card">
       <div className="event-image">

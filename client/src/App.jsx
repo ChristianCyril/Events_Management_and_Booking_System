@@ -7,6 +7,7 @@ import Bookings from './pages/bookings/Bookings';
 import PersistLogin from './components/PersistLogin';
 import Dashboard from './pages/admin/Dashboard';
 import Homepage from './pages/HomePage/HomePage';
+import EventDetailsPage from './pages/event-details/EventDetails'
 
 
 
@@ -18,6 +19,7 @@ function App() {
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/homepage' element={<Homepage />} />
+      <Route path='/event' element={<EventDetailsPage/>} />
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
