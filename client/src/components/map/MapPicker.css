@@ -39,3 +39,42 @@
 
   border:1px solid #e8e8e8;
 }
+
+.map-search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.map-search input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.map-search input:focus {
+  border-color: #ff6b00;
+}
+
+.map-search button {
+  padding: 8px 16px;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.map-search button:hover:not(:disabled) {
+  background-color: #e55e00;
+}
+
+.map-search button:disabled {
+  background-color: #ffb380;
+  cursor: not-allowed;
+}

@@ -31,7 +31,7 @@ export default function CreateEvent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormValues((prev) => ({ ...prev, [name]: value }))
+    setFormValues({ ...formValues, [name]: value })
   }
 
   const handleImageChange = (e) => {
@@ -60,9 +60,7 @@ export default function CreateEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setServerError("")
-
-    const errors = validate(formValues)
-    setFormErrors(errors)
+    setFormErrors(validate(formValues));
     if (Object.keys(errors).length > 0) return
 
     const formData = new FormData()
@@ -89,136 +87,136 @@ export default function CreateEvent() {
 
   return (
     <>
-      <AdminHeader/>
-      <Sidebar/>
-       <div className="event-form-page">
-      <form className="event-form" onSubmit={handleSubmit}>
-        <h2>Create Event</h2>
+      <AdminHeader />
+      <Sidebar />
+      <div className="event-form-page">
+        <form className="event-form" onSubmit={handleSubmit}>
+          <h2>Create Event</h2>
 
-        {serverError && <p className="server-error">{serverError}</p>}
+          {serverError && <p className="server-error">{serverError}</p>}
 
-        <div className="form-group">
-          <label>Title</label>
-          {formErrors.title && <p className="error-message">{formErrors.title}</p>}
-          <input
-            type="text"
-            name="title"
-            value={formValues.title}
-            onChange={handleChange}
-            placeholder="Event title"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          {formErrors.description && <p className="error-message">{formErrors.description}</p>}
-          <textarea
-            name="description"
-            value={formValues.description}
-            onChange={handleChange}
-            placeholder="Event description"
-            rows={4}
-          />
-        </div>
-
-        <div className="form-row">
           <div className="form-group">
-            <label>Date</label>
-            {formErrors.date && <p className="error-message">{formErrors.date}</p>}
+            <label>Title</label>
+            {formErrors.title && <p className="error-message">{formErrors.title}</p>}
             <input
-              type="date"
-              name="date"
-              value={formValues.date}
+              type="text"
+              name="title"
+              value={formValues.title}
               onChange={handleChange}
+              placeholder="Event title"
             />
           </div>
 
           <div className="form-group">
-            <label>Time</label>
-            {formErrors.time && <p className="error-message">{formErrors.time}</p>}
-            <input
-              type="time"
-              name="time"
-              value={formValues.time}
+            <label>Description</label>
+            {formErrors.description && <p className="error-message">{formErrors.description}</p>}
+            <textarea
+              name="description"
+              value={formValues.description}
               onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Price (FCFA)</label>
-            {formErrors.price && <p className="error-message">{formErrors.price}</p>}
-            <input
-              type="number"
-              name="price"
-              value={formValues.price}
-              onChange={handleChange}
-              placeholder="0"
-              min="0"
+              placeholder="Event description"
+              rows={4}
             />
           </div>
 
-          <div className="form-group">
-            <label>Capacity</label>
-            {formErrors.capacity && <p className="error-message">{formErrors.capacity}</p>}
-            <input
-              type="number"
-              name="capacity"
-              value={formValues.capacity}
-              onChange={handleChange}
-              placeholder="Total seats"
-              min="1"
-            />
+          <div className="form-row">
+            <div className="form-group">
+              <label>Date</label>
+              {formErrors.date && <p className="error-message">{formErrors.date}</p>}
+              <input
+                type="date"
+                name="date"
+                value={formValues.date}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Time</label>
+              {formErrors.time && <p className="error-message">{formErrors.time}</p>}
+              <input
+                type="time"
+                name="time"
+                value={formValues.time}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Price (FCFA)</label>
+              {formErrors.price && <p className="error-message">{formErrors.price}</p>}
+              <input
+                type="number"
+                name="price"
+                value={formValues.price}
+                onChange={handleChange}
+                placeholder="0"
+                min="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Capacity</label>
+              {formErrors.capacity && <p className="error-message">{formErrors.capacity}</p>}
+              <input
+                type="number"
+                name="capacity"
+                value={formValues.capacity}
+                onChange={handleChange}
+                placeholder="Total seats"
+                min="1"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Max Tickets Per User</label>
+              {formErrors.maxBookingsPerUser && (
+                <p className="error-message">{formErrors.maxBookingsPerUser}</p>
+              )}
+              <input
+                type="number"
+                name="maxBookingsPerUser"
+                value={formValues.maxBookingsPerUser}
+                onChange={handleChange}
+                placeholder="Max per user"
+                min="1"
+              />
+            </div>
           </div>
 
           <div className="form-group">
-            <label>Max Tickets Per User</label>
-            {formErrors.maxBookingsPerUser && (
-              <p className="error-message">{formErrors.maxBookingsPerUser}</p>
+            <label>Event Image (optional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="image-preview"
+              />
             )}
-            <input
-              type="number"
-              name="maxBookingsPerUser"
-              value={formValues.maxBookingsPerUser}
-              onChange={handleChange}
-              placeholder="Max per user"
-              min="1"
+          </div>
+
+          <div className="form-group">
+            <label>Location</label>
+            {formErrors.location && <p className="error-message">{formErrors.location}</p>}
+            <MapPicker
+              location={location}
+              setLocation={setLocation}
             />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Event Image (optional)</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          {imagePreview && (
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="image-preview"
-            />
-          )}
-        </div>
-
-        <div className="form-group">
-          <label>Location</label>
-          {formErrors.location && <p className="error-message">{formErrors.location}</p>}
-          <MapPicker
-            location={location}
-            onLocationSelect={setLocation}
-          />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create Event"}
-        </button>
-      </form>
-    </div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create Event"}
+          </button>
+        </form>
+      </div>
     </>
-   
+
   )
 }

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import './MapPicker.css'
+import { useState } from "react"
 
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -12,38 +13,81 @@ L.Icon.Default.mergeOptions({
 })
 
 // This inner component listens for clicks on the map
-function ClickHandler({ onLocationSelect }) {
+function ClickHandler({ setLocation }) {
   useMapEvents({
     async click(e) {
       const { lat, lng } = e.latlng
-
-      // Reverse geocode -- convert lat/lng to a human readable address
-      // Using OpenStreetMap's free Nominatim API -- no API key needed
       try {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
         )
         const data = await response.json()
         const address = data.display_name || `${lat}, ${lng}`
-
-        // Pass the result up to the parent form
-        onLocationSelect({ lat, lng, address })
+        setLocation({ lat, lng, address })
       } catch (error) {
-        // If reverse geocoding fails, just use the coordinates as the address
-        onLocationSelect({ lat, lng, address: `${lat}, ${lng}` })
+        setLocation({ lat, lng, address: `${lat}, ${lng}` })
       }
     },
   })
   return null
 }
 
-export default function MapPicker({ location, onLocationSelect }) {
+export default function MapPicker({ location, setLocation }) {
   // Default center -- Yaounde, Cameroon
   const defaultCenter = [3.8667, 11.5167]
   const center = location?.lat ? [location.lat, location.lng] : defaultCenter
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searching, setSearching] = useState(false)
+  const [isValidLocation, setIsValidLocation] = useState(true);
+  const [searchFailed, setSearchFailed] = useState(false);
+
+  //search functionality
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return
+    setSearching(true)
+    setIsValidLocation(true)
+    setSearchFailed(false)
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchQuery)}&format=json&limit=1`
+      )
+      const data = await response.json()
+
+      if (data.length === 0) {
+        setIsValidLocation(false)
+        return
+      }
+
+      const { lat, lon, display_name } = data[0]
+      
+      setLocation({
+        lat: parseFloat(lat),
+        lng: parseFloat(lon),
+        address: display_name
+      })
+    } catch (error) {
+      setSearchFailed(true)
+    } finally {
+      setSearching(false)
+    }
+  }
 
   return (
     <div>
+      <div className="map-search">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a place..."
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button type="button" onClick={handleSearch} disabled={searching}>
+          {searching ? "Searching..." : "Search"}
+        </button>
+      </div>
+      {!isValidLocation && <p className="server-error">Location not found. Try a different search.</p> /*they inherit style*/ } 
+      {searchFailed && <p className="server-error">Search failed. Try clicking the map instead.</p> /*from parent container*/}
       <p className="map-instruction">Click on the map to drop a pin</p>
       <MapContainer
         key={center.join('-')}
@@ -56,7 +100,7 @@ export default function MapPicker({ location, onLocationSelect }) {
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <ClickHandler onLocationSelect={onLocationSelect} />
+        <ClickHandler setLocation={setLocation} />
         {location?.lat && (
           <Marker position={[location.lat, location.lng]} />
         )}
@@ -69,3 +113,11 @@ export default function MapPicker({ location, onLocationSelect }) {
     </div>
   )
 }
+
+/*
+The Simple Rule
+Anything that uses useMapEvents, useMap, 
+or any other react-leaflet hook must be a child component rendered inside MapContainer, 
+not the same component that renders MapContainer itself.
+
+*/
