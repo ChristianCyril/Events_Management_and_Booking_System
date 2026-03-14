@@ -12,7 +12,7 @@ function EventCard({event}){
           <p><span>Date: </span> {event.date}</p>
           <p><span>Time: </span> {event.time}</p>
           <p><span>Location: </span> {event.location}</p>
-          <p><span>Price: </span>{event.price} <span className='currency'>FCFA : </span></p>
+          <p><span>Price: </span>{event.price} <span className='currency'>FCFA</span></p>
           <p><span>Seats Available: </span> {event.seatsRemaining}</p>
         </div>
       </div>

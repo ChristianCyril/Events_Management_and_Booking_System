@@ -49,7 +49,7 @@ export default function EventDetailsPage() {
             src={event.image}
             alt={event.title}
           />
-          <h1 className="event-title">{event.title}</h1>
+          <p className="event-title">{event.title}</p>
           <div className="event-meta">
             <div>
               <span>Date</span>
@@ -69,11 +69,11 @@ export default function EventDetailsPage() {
             </div>
           </div>
           <div className="event-description">
-            <h2>Description</h2>
+            <p>Description</p>
             <p>{event.description}</p>
           </div>
           <div className="event-map">
-            <h2>Location</h2>
+            <p>Location</p>
             <MapComponent
               lat={event.location.lat}
               lng={event.location.lng}
@@ -84,9 +84,9 @@ export default function EventDetailsPage() {
         {/* RIGHT SIDE */}
         <div className="event-right">
           <div className="purchase-card">
-            <h2 className="price">
+            <p className="price">
               {event.price} FCFA
-            </h2>
+            </p>
             <p className="max-limit">
               Max per user: {event.maxBookingsPerUser}
             </p>
