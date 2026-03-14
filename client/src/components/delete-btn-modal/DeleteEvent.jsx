@@ -1,7 +1,7 @@
 // components/DeleteEventButton.jsx
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import useApiPrivate from "../hooks/useApiPrivate"
+import useApiPrivate from "../../hooks/useApiPrivate"
 import "./DeleteEvent.css"
 
 export default function DeleteEventButton({ eventId, onDeleted }) {

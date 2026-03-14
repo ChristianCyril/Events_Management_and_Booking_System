@@ -1,26 +1,3 @@
-/* ── Delete Button ───────────────────────────────────────────────────────────── */
-.delete-btn {
-  padding: 8px 16px;
-  background-color: #ffffff;
-  color: #e53935;
-  font-size: 13px;
-  font-weight: 600;
-  border: 1.5px solid #e53935;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.delete-btn:hover:not(:disabled) {
-  background-color: #e53935;
-  color: #ffffff;
-}
-
-.delete-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 /* ── Modal Overlay ───────────────────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;

@@ -24,13 +24,14 @@ function App() {
       <Route path='/event' element={<EventDetailsPage/>} />
       <Route path='/create-event' element={<CreateEvent/>} />
       <Route path='/edit-event' element={<EditEvent/>} />
+      <Route path='/dashboard' element={<Dashboard />} />
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
           <Route path='/bookings' element={<Bookings />} />
         </Route>
         <Route element={<AdminRoutes />}>
-          <Route path='/dashboard' element={<Dashboard />} />
+          
         </Route>
       </Route>
 

@@ -1,0 +1,225 @@
+/* ── Event Tile ──────────────────────────────────────────────────────────────── */
+.event-tile {
+  background-color: #ffffff;
+  border: 1.5px solid #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.event-tile:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.event-tile--passed {
+  opacity: 0.72;
+}
+
+.event-tile--passed:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Status Badge ────────────────────────────────────────────────────────────── */
+.event-tile__status {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 1;
+}
+
+.event-tile__status--upcoming {
+  background-color: #fff4ec;
+  color: #ff6b00;
+  border: 1px solid #ffd5b0;
+}
+
+.event-tile__status--passed {
+  background-color: #f0f0f0;
+  color: #999999;
+  border: 1px solid #dddddd;
+}
+
+/* ── Image ───────────────────────────────────────────────────────────────────── */
+.event-tile__image-wrap {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.event-tile__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.event-tile:hover .event-tile__image {
+  transform: scale(1.04);
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────────── */
+.event-tile__body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.event-tile__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Meta ────────────────────────────────────────────────────────────────────── */
+.event-tile__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.event-tile__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #777777;
+}
+
+.event-tile__meta-item svg {
+  flex-shrink: 0;
+  color: #aaaaaa;
+}
+
+/* ── Capacity Bar ────────────────────────────────────────────────────────────── */
+.event-tile__capacity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.event-tile__capacity-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #888888;
+  font-weight: 500;
+}
+
+.event-tile__capacity-bar {
+  height: 5px;
+  background-color: #f0f0f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.event-tile__capacity-fill {
+  height: 100%;
+  background-color: #ff6b00;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────────── */
+.event-tile__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid #f5f5f5;
+  margin-top: auto;
+}
+
+.event-tile__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #eeeeee;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  color: #888888;
+  flex-shrink: 0;
+}
+
+/* Attendees -- orange */
+.event-tile__action--attendees:hover {
+  background-color: #fff4ec;
+  border-color: #ff6b00;
+  color: #ff6b00;
+}
+
+/* View -- blue */
+.event-tile__action--view:hover {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+/* Edit -- green */
+.event-tile__action--edit:hover {
+  background-color: #f0fdf4;
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+/* Delete button from DeleteEventButton component -- override to match icon style */
+.event-tile__actions .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #eeeeee;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  color: #888888;
+  font-size: 0;  /* hide text */
+  padding: 0;
+  position: relative;
+}
+
+/* Inject a trash SVG via pseudo-element for the delete button */
+.event-tile__actions .delete-btn::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6'/%3E%3Cpath d='M14 11v6'/%3E%3Cpath d='M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.event-tile__actions .delete-btn:hover {
+  background-color: #fff5f5;
+  border-color: #e53935;
+}
+
+.event-tile__actions .delete-btn:hover::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e53935' stroke-width='2'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6'/%3E%3Cpath d='M14 11v6'/%3E%3Cpath d='M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");
+}

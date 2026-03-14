@@ -13,7 +13,7 @@ export default function Sidebar() {
           
           <NavLink to="/create-event" className="sidebar-item">
             <img src="create-icon.png" className="sidebar-icon" />
-            <span className="sidebar-label">Create Event</span>
+            <span className="sidebar-label">New Event</span>
           </NavLink>
           
           <NavLink to="/analytics" className="sidebar-item">

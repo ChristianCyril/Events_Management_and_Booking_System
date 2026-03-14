@@ -1,0 +1,185 @@
+/* ── Page Layout ─────────────────────────────────────────────────────────────── */
+.dashboard {
+  margin-left: 160px;
+  margin-top: 70px;
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(to left, #e1eec3, #f05053a6);
+  padding: 28px 32px;
+  box-sizing: border-box;
+}
+
+/* ── Summary Strip ───────────────────────────────────────────────────────────── */
+.dashboard__summary {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  padding: 20px 32px;
+  margin-bottom: 24px;
+  gap: 0;
+}
+
+.dashboard__summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+}
+
+.dashboard__summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.dashboard__summary-value--orange {
+  color: #ff6b00;
+}
+
+.dashboard__summary-value--muted {
+  color: #aaaaaa;
+}
+
+.dashboard__summary-label {
+  font-size: 12px;
+  color: #888888;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dashboard__summary-divider {
+  width: 1px;
+  height: 40px;
+  background-color: #eeeeee;
+  flex-shrink: 0;
+}
+
+/* ── My Events Card ──────────────────────────────────────────────────────────── */
+.dashboard__card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  padding: 24px 28px;
+}
+
+.dashboard__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid #f0f0f0;
+}
+
+.dashboard__card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.dashboard__card-subtitle {
+  font-size: 13px;
+  color: #999999;
+  margin: 0;
+}
+
+.dashboard__create-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background-color: #ff6b00;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.dashboard__create-btn:hover {
+  background-color: #e55e00;
+}
+
+.dashboard__create-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── Events Grid ─────────────────────────────────────────────────────────────── */
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────────── */
+.dashboard__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+  color: #cccccc;
+}
+
+.dashboard__empty p {
+  font-size: 14px;
+  color: #aaaaaa;
+  margin: 0;
+}
+
+.dashboard__empty button {
+  padding: 8px 20px;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.dashboard__empty button:hover {
+  background-color: #e55e00;
+}
+
+
+@media (max-width: 1024px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .dashboard__summary {
+    padding: 16px;
+    gap: 0;
+  }
+
+  .dashboard__summary-value {
+    font-size: 22px;
+  }
+
+  .dashboard__card {
+    padding: 16px;
+  }
+
+  .dashboard__grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+}
