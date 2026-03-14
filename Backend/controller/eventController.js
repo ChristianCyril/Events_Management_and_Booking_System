@@ -15,7 +15,7 @@ export const createEvent = async (req, res) => {
   if (req.body.capacity === undefined) return res.status(400).json({ message: "Capacity is required" });
   if (req.body.maxBookingsPerUser === undefined) return res.status(400).json({ message: "Max bookings per user is required" });
   if (!req.userId) return res.status(400).json({ message: "Creator ID is required" });  //comes from middleware verify jwt
-
+  
   try {
     const newEvent = await Event.create(
       {
@@ -23,14 +23,14 @@ export const createEvent = async (req, res) => {
         description: req.body.description,
         date: req.body.date,
         time: req.body.time,
-        location: {
-          address: req.body.location.address,
-          lat: req.body.location.lat,
-          lng: req.body.location.lng
-        },
+        location: JSON.parse(req.body.location),
         price: req.body.price,
         capacity: req.body.capacity,
         maxBookingsPerUser: req.body.maxBookingsPerUser,
+        image: {
+          url: req.file ? req.file.path : '',
+          publicId: req.file ? req.file.filename : '',
+        },
         createdBy: req.userId
       }
     );
@@ -121,7 +121,7 @@ export const deleteEvent = async (req, res) => {
     if (event.createdBy.toString() !== req.userId) {
       return res.status(403).json({ message: "You are not authorised to delete this event" })
     }
-    
+
     // Check for confirmed bookings by comparing capacity and seatsRemaining
     const bookedSeats = event.capacity - event.seatsRemaining
 
@@ -145,7 +145,7 @@ export const deleteEvent = async (req, res) => {
 
 export const getAdminEvents = async (req, res) => {
   try {                              // req.userId is a mongoose ObjectId
-    const events = await Event.find({ createdBy: req.userId}).sort({ date: 1 }) // sort by date ascending -- soonest first
+    const events = await Event.find({ createdBy: req.userId }).sort({ date: 1 }) // sort by date ascending -- soonest first
     if (!events.length) {
       return res.status(200).json({ message: "You have not created any events yet", events: [] })
     }
