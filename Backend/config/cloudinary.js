@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'                   //targeting version 2 of cloudinary
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import multer from 'multer'
 
