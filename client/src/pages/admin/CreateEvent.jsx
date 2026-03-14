@@ -61,7 +61,7 @@ export default function CreateEvent() {
     e.preventDefault()
     setServerError("")
     setFormErrors(validate(formValues));
-    if (Object.keys(errors).length > 0) return
+    if (Object.keys(formErrors).length > 0) return
 
     const formData = new FormData()
     formData.append("title", formValues.title)
@@ -76,8 +76,8 @@ export default function CreateEvent() {
 
     try {
       setLoading(true)
-      await apiPrivate.post("/api/events", formData);
-      navigate("/dashboard")
+      await apiPrivate.post("/admin/event", formData);
+      //navigate("/dashboard")
     } catch (error) {
       setServerError(error?.response?.data?.message || "Something went wrong")
     } finally {
