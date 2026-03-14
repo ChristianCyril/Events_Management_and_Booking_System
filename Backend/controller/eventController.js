@@ -15,7 +15,7 @@ export const createEvent = async (req, res) => {
   if (req.body.capacity === undefined) return res.status(400).json({ message: "Capacity is required" });
   if (req.body.maxBookingsPerUser === undefined) return res.status(400).json({ message: "Max bookings per user is required" });
   if (!req.userId) return res.status(400).json({ message: "Creator ID is required" });  //comes from middleware verify jwt
-  
+
   try {
     const newEvent = await Event.create(
       {
@@ -105,6 +105,15 @@ export const updateEvent = async (req, res) => {
       if (req.body.location?.lng !== undefined) event.location.lng = req.body.location.lng;
     }
 
+    if (req.file && event.image?.publicId) {
+      await cloudinary.uploader.destroy(event.image.publicId);
+    }
+
+    if (req.file) {
+      event.image.url = req.file.path
+      event.image.publicId = req.file.filename
+    }
+
     const updatedEvent = await event.save();
     res.status(200).json({ message: `Event ${updatedEvent._id.toString()} updated successfully` });
   } catch (error) {
@@ -131,9 +140,14 @@ export const deleteEvent = async (req, res) => {
         confirmedBookings: bookedSeats,
       })
     }
+
+    if (event.image?.publicId) {
+      await cloudinary.uploader.destroy(event.image.publicId)
+    }
+    
     // If force is true or no confirmed bookings exist, delete the event
     await Event.findByIdAndDelete(req.params.id)
-
+   
     res.status(200).json({ message: `Event deleted successfully` })
 
   } catch (error) {

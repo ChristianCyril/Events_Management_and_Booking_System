@@ -18,3 +18,17 @@ const storage = new CloudinaryStorage({
 
 export const upload = multer({ storage })
 export default cloudinary
+
+
+
+/*MyNotes:
+  Multer — its only job is to read files from incoming HTTP requests.
+  Without it, req.body only contains text. Multer makes files available. 
+  Normally multer saves files to your disk, but you are giving it a custom storage engine instead.
+  Cloudinary SDK — this is the official package that lets your Node.js code talk to Cloudinary's API. 
+  It handles authentication and the actual upload.
+  multer-storage-cloudinary — this is the bridge between the two. 
+  It tells multer "instead of saving to disk, send everything straight to Cloudinary".
+  It is a custom storage engine for multer.
+
+*/
