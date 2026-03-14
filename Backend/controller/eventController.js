@@ -1,5 +1,6 @@
 import Event from "../model/Event.js";
 import mongoose from "mongoose";
+import cloudinary from "../config/cloudinary.js";
 
 export const createEvent = async (req, res) => {
   //Validating data in req body
@@ -7,10 +8,11 @@ export const createEvent = async (req, res) => {
   if (!req.body.description) return res.status(400).json({ message: "Description is required" });
   if (!req.body.date) return res.status(400).json({ message: "Date is required" });
   if (!req.body.time) return res.status(400).json({ message: "Time is required" });
-  if (!req.body.location) return res.status(400).json({ message: "Location is required" });
-  if (!req.body.location?.address) return res.status(400).json({ message: "Address is required" });
-  if (req.body.location?.lat === undefined) return res.status(400).json({ message: "Latitude is required" });
-  if (req.body.location?.lng === undefined) return res.status(400).json({ message: "Longitude is required" });
+  if (!(req.body.location)) return res.status(400).json({ message: "Location is required" });
+  const location = JSON.parse(req.body.location);
+  if (!location?.address) return res.status(400).json({ message: "Address is required" });
+  if (location?.lat === undefined) return res.status(400).json({ message: "Latitude is required" });
+  if (location?.lng === undefined) return res.status(400).json({ message: "Longitude is required" });
   if (req.body.price === undefined) return res.status(400).json({ message: "Price is required" });
   if (req.body.capacity === undefined) return res.status(400).json({ message: "Capacity is required" });
   if (req.body.maxBookingsPerUser === undefined) return res.status(400).json({ message: "Max bookings per user is required" });
@@ -100,9 +102,10 @@ export const updateEvent = async (req, res) => {
     }
 
     if (req.body.location) {
-      if (req.body.location?.address) event.location.address = req.body.location.address;
-      if (req.body.location?.lat !== undefined) event.location.lat = req.body.location.lat;
-      if (req.body.location?.lng !== undefined) event.location.lng = req.body.location.lng;
+      const location = JSON.parse(req.body.location);
+      if (location?.address) event.location.address = location.address;
+      if (location?.lat !== undefined) event.location.lat = location.lat;
+      if (location?.lng !== undefined) event.location.lng = location.lng;
     }
 
     if (req.file && event.image?.publicId) {
@@ -134,7 +137,7 @@ export const deleteEvent = async (req, res) => {
     // Check for confirmed bookings by comparing capacity and seatsRemaining
     const bookedSeats = event.capacity - event.seatsRemaining
 
-    if (bookedSeats > 0 && !req.body.force) {
+    if (bookedSeats > 0 && !req.query?.force) {
       return res.status(409).json({
         message: `This event has ${bookedSeats} confirmed booking(s). Send force: true to confirm deletion.`,
         confirmedBookings: bookedSeats,
@@ -144,7 +147,7 @@ export const deleteEvent = async (req, res) => {
     if (event.image?.publicId) {
       await cloudinary.uploader.destroy(event.image.publicId)
     }
-    
+
     // If force is true or no confirmed bookings exist, delete the event
     await Event.findByIdAndDelete(req.params.id)
    

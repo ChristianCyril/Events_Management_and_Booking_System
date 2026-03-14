@@ -8,7 +8,7 @@ export const api = axios.create(
     baseURL: BASE_URL,
     withCredentials: true,
     headers:{
-      'Content-Type': 'multipart/form-data'
+      'Content-Type':'application/json'
     }
   }
   
@@ -19,7 +19,7 @@ export const apiPrivate = axios.create(
     baseURL: BASE_URL,
     withCredentials: true,
     headers:{
-      'Content-Type':'application/json'
+      'Content-Type': 'multipart/form-data'
     }
   }
 )
