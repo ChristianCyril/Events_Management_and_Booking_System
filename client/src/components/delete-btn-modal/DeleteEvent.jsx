@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useApiPrivate from "../../hooks/useApiPrivate"
 import "./DeleteEvent.css"
+import { createPortal } from 'react-dom' 
 
 export default function DeleteEventButton({ eventId, onDeleted }) {
   const apiPrivate = useApiPrivate();
@@ -18,12 +19,12 @@ export default function DeleteEventButton({ eventId, onDeleted }) {
 
     try {
       // First attempt -- no force flag
-      await apiPrivate.delete(`/api/events/${eventId}`)
+      await apiPrivate.delete(`/admin/event/${eventId}`)
       // No warning -- deleted successfully, no confirmed bookings existed
       onDeleted(eventId)
     } catch (err) {
       if (err?.response?.status === 409) {
-        // Backend warned us about confirmed bookings
+        // Backend warned about confirmed bookings
         // Show the modal with the warning
         setWarning(err.response.data.confirmedBookings)
         setShowModal(true)
@@ -41,13 +42,12 @@ export default function DeleteEventButton({ eventId, onDeleted }) {
 
     try {
       // Second attempt -- with force flag
-      await apiPrivate.delete(`/api/events/${eventId}`, {
-        data: { force: true } // axios delete requests send body via 'data'
-      })
+      await apiPrivate.delete(`/admin/event/${eventId}?force=true`)
       setShowModal(false)
       onDeleted(eventId) // tell parent to remove event from the list
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong")
+      setShowModal(false)
     } finally {
       setLoading(false)
     }
@@ -65,7 +65,7 @@ export default function DeleteEventButton({ eventId, onDeleted }) {
         {loading ? "Deleting..." : "Delete"}
       </button>
 
-      {showModal && (
+      {showModal && createPortal(
         <div className="modal-overlay">
           <div className="modal">
             <h3>Warning</h3>
@@ -92,7 +92,7 @@ export default function DeleteEventButton({ eventId, onDeleted }) {
               </button>
             </div>
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   )
