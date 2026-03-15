@@ -10,10 +10,11 @@ import registration from './routes/api/registration.js'
 import authentication from './routes/api/auth.js'
 import refresh from './routes/api/refresh.js'
 import verifyJWT from './middleware/verifyJWT.js';
-import test from './routes/api/test.js'
 import logout from './routes/api/logout.js'
-import eventAdmin from './routes/api/events-admin/event-admin.js';
+import eventAdmin from './routes/api/event-admin.js';
 import event from './routes/api/event.js'
+import booking from './routes/api/booking.js'
+
 
 connectDB();
 const app = express();
@@ -33,7 +34,7 @@ app.use('/event',event)
 
 app.use(verifyJWT);          //jwt verification middleware
 app.use('/admin/event', eventAdmin);
-app.use('/test',test);
+app.use('/booking',booking)
 
 
 
