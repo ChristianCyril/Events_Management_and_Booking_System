@@ -2,6 +2,7 @@ import Event from "../model/Event.js";
 import mongoose from "mongoose";
 import cloudinary from "../config/cloudinary.js";
 
+
 export const createEvent = async (req, res) => {
   //Validating data in req body
   if (!req.body.title) return res.status(400).json({ message: "Title is required" });
@@ -87,7 +88,7 @@ export const updateEvent = async (req, res) => {
 
     if (req.body.maxBookingsPerUser !== undefined) {
       const effectiveCapacity = req.body.capacity !== undefined ? req.body.capacity : event.capacity  //making sure it does not exeed capacity in db or the current one that has been modified.
-      if (req.body.maxBookingsPerUser > effectiveCapacity) {
+      if (Number(req.body.maxBookingsPerUser) > Number(effectiveCapacity)) {
         return res.status(400).json({
           message: "Max bookings per user cannot exceed total capacity"
         });
@@ -167,6 +168,21 @@ export const getAdminEvents = async (req, res) => {
       return res.status(200).json({ message: "You have not created any events yet", events: [] })
     }
     res.status(200).json(events)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" })
+  }
+}
+
+
+export const getOneAdminEvents = async (req, res) => {
+  if(!req.params?.id) return res.status(400).json({"message": 'Event ID is required'});
+  try {                            
+    const event = await Event.findOne({_id:req.params.id, createdBy: req.userId }) 
+    if (!event) {
+      return res.status(404).json({ message: "Event not found", events: {}})
+    }
+    res.status(200).json(event)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server error" })
