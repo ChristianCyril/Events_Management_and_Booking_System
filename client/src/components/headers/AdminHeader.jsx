@@ -7,7 +7,6 @@ export default function AdminHeader() {
         <div className="nav-left">
           <div className="genHedTitle">Ngola Events</div>
           <div className="genHedTitle adm-label">Admin</div>
-          <NavLink to="/homepage" className="nav-item">Events</NavLink >
         </div>
         <div className="header-search">
           <input

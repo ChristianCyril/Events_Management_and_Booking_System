@@ -59,7 +59,7 @@ export default function MapPicker({ location, setLocation }) {
       }
 
       const { lat, lon, display_name } = data[0]
-      
+
       setLocation({
         lat: parseFloat(lat),
         lng: parseFloat(lon),
@@ -80,13 +80,18 @@ export default function MapPicker({ location, setLocation }) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for a place..."
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              handleSearch()
+            }
+          }}
         />
         <button type="button" onClick={handleSearch} disabled={searching}>
           {searching ? "Searching..." : "Search"}
         </button>
       </div>
-      {!isValidLocation && <p className="server-error">Location not found. Try a different search.</p> /*they inherit style*/ } 
+      {!isValidLocation && <p className="server-error">Location not found. Try a different search.</p> /*they inherit style*/}
       {searchFailed && <p className="server-error">Search failed. Try clicking the map instead.</p> /*from parent container*/}
       <p className="map-instruction">Click on the map to drop a pin</p>
       <MapContainer

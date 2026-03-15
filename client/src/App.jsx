@@ -10,6 +10,7 @@ import Homepage from './pages/HomePage/HomePage';
 import EventDetailsPage from './pages/event-details/EventDetails'
 import CreateEvent from './pages/admin/CreateEvent';
 import EditEvent from './pages/admin/EditEvent';
+import ViewEvent from './pages/admin/ViewEvent';
 
 
 
@@ -21,17 +22,18 @@ function App() {
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/homepage' element={<Homepage />} />
-      <Route path='/event' element={<EventDetailsPage/>} />
-      <Route path='/create-event' element={<CreateEvent/>} />
-      <Route path='/edit-event' element={<EditEvent/>} />
-      <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/event' element={<EventDetailsPage />} />
+
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
           <Route path='/bookings' element={<Bookings />} />
         </Route>
         <Route element={<AdminRoutes />}>
-          
+          <Route path='/create-event' element={<CreateEvent />} />
+          <Route path='/edit-event/:id' element={<EditEvent />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/view-event/:id' element={<ViewEvent />} />
         </Route>
       </Route>
 

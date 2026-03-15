@@ -7,20 +7,23 @@ import "./EventForm.css"
 import AdminHeader from '../../components/headers/AdminHeader'
 import Sidebar from '../../components/admin-sidebar/Sidebar'
 
+const initialValues = {
+  title: "",
+  description: "",
+  date: "",
+  time: "",
+  price: "",
+  capacity: "",
+  maxBookingsPerUser: ""
+}
+
+
 export default function EditEvent() {
   const { id } = useParams()
   const apiPrivate = useApiPrivate()
   const navigate = useNavigate()
 
-  const [formValues, setFormValues] = useState({
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    price: "",
-    capacity: "",
-    maxBookingsPerUser: "",
-  })
+  const [formValues, setFormValues] = useState(initialValues);
   const [location, setLocation] = useState(null)
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState("")
@@ -33,7 +36,7 @@ export default function EditEvent() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await apiPrivate.get(`/api/events/${id}`)
+        const response = await apiPrivate.get(`/admin/event/${id}`)
         const event = response.data
 
         // Pre-fill all form fields with existing data
@@ -45,7 +48,7 @@ export default function EditEvent() {
           time: event.time,
           price: event.price,
           capacity: event.capacity,
-          maxBookingsPerUser: event.maxBookingsPerUser,
+          maxBookingsPerUser: event.maxBookingsPerUser
         })
 
         // Pre-fill the map with existing location
@@ -63,7 +66,7 @@ export default function EditEvent() {
     }
 
     fetchEvent()
-  }, [id])
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -96,10 +99,8 @@ export default function EditEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setServerError("")
-
-    const errors = validate(formValues)
     setFormErrors(errors)
-    if (Object.keys(errors).length > 0) return
+    if (Object.keys(validate(formValues)).length > 0) return
 
     const formData = new FormData()
     formData.append("title", formValues.title)
@@ -114,10 +115,8 @@ export default function EditEvent() {
 
     try {
       setLoading(true)
-      await apiPrivate.put(`/api/events/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      navigate("/admin/dashboard")
+      await apiPrivate.put(`/admin/event/${id}`, formData);
+      navigate("/dashboard")
     } catch (error) {
       setServerError(error?.response?.data?.message || "Something went wrong")
     } finally {
@@ -130,7 +129,7 @@ export default function EditEvent() {
   return (
     <>
       <AdminHeader />
-      <Sidebar />
+      <Sidebar/>
       <div className="event-form-page">
         <form className="event-form" onSubmit={handleSubmit}>
           <h2>Edit Event</h2>
@@ -241,7 +240,7 @@ export default function EditEvent() {
             {formErrors.location && <p className="error-message">{formErrors.location}</p>}
             <MapPicker
               location={location}
-              onLocationSelect={setLocation}
+              setLocation={setLocation}
             />
           </div>
           <button type="submit" disabled={loading}>

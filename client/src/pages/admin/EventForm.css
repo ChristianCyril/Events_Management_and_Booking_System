@@ -58,7 +58,7 @@
 
 /* inputs */
 
-.event-form input,
+.event-form input:not(.map-search input),
 .event-form textarea{
   padding:10px 12px;
 
@@ -137,7 +137,7 @@
 
 /* submit button */
 
-.event-form button{
+.event-form button:not(.map-search button){
   width:100%;
 
   padding:12px;
