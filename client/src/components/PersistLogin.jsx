@@ -20,7 +20,7 @@ function PersistLogin() {
         setIsLoading(false);
       }
     }
-    refreshAccessToken();
+    if(!auth.accessToken) refreshAccessToken();
   }, []);
 
 

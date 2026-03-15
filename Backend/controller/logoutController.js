@@ -6,13 +6,13 @@ const handleLogout= async (req,res)=>{
   //verify if token exist
   const foundUser = await User.findOne({refreshToken:refreshToken}).exec();
   if(!foundUser){
-    res.clearCookie('jwt',{httpOnly: true, sameSite: 'None',/*secure: true*/});
+    res.clearCookie('jwt',{httpOnly: true, sameSite: 'None',secure: true});
     return res.sendStatus(204);
   }
   foundUser.refreshToken = '';
   await foundUser.save();
   res.clearCookie('jwt',{httpOnly: true, sameSite: 'None',secure: true});
-  res.status(204).json('Log Out Successful');
+  res.sendStatus(204);
 }
 
 export default handleLogout;

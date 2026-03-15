@@ -109,6 +109,34 @@
   box-shadow:0 0 0 2px rgba(255,90,60,0.15);
 }
 
+.logout{
+  text-decoration:none;
+  font-size:20px;
+  font-weight:600;
+  color:#0a0a0a;
+  position:relative;
+  transition:color 0.2s ease;
+  cursor: pointer;
+}
+
+.logout:hover{
+  color:#ff5a3c;
+}
+
+.logout::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0%;
+  height:2px;
+  background:#ff5a3c;
+  transition:width 0.25s ease;
+}
+
+.logout:hover::after{
+  width:100%;
+}
 
 .profile-icon{
   width:36px;

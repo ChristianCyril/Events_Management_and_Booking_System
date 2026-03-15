@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import "./AdminHeader.css";
+import useAuth from "../../hooks/useAuth";
 export default function AdminHeader() {
+  const {logout} = useAuth();
   return (
     <header className="adm-header">
       <div className="header-inner">
@@ -16,7 +18,12 @@ export default function AdminHeader() {
           />
         </div>
         <nav className="nav-right">
-          <NavLink to="/login" className="nav-item">Logout</NavLink >
+          <div
+            className="logout"
+            onClick={()=>logout()}
+          >
+            Logout
+          </div>
           <div className="profile-icon">
             <img src="/user-icon.png" className="profile-img"/>
           </div>
