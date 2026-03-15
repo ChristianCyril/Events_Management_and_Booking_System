@@ -19,15 +19,16 @@ import ViewEvent from './pages/admin/ViewEvent';
 function App() {
   return (
     <Routes>
+      <Route path='/' element={<Homepage />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
-      <Route path='/homepage' element={<Homepage />} />
-      <Route path='/event' element={<EventDetailsPage />} />
+      <Route path='/event-details/:id' element={<EventDetailsPage />} />
+      
 
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
-          <Route path='/bookings' element={<Bookings />} />
+          <Route path='/bookings/:id' element={<Bookings />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route path='/create-event' element={<CreateEvent />} />

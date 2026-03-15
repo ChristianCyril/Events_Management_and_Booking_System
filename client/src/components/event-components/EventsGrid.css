@@ -6,6 +6,34 @@
   width: 100%;
 }
 
+.loadspinner {
+  width: 60px;
+  height: 60px;
+  margin: auto;
+}
+
+.loadspinner img {
+  width: 100%;
+  height: 100%;
+}
+
+.events-grid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+  color: #cccccc;
+}
+
+.events-grid-empty p {
+  font-size: 14px;
+  color: #aaaaaa;
+  margin: 0;
+}
+
+
 /* Events Grid Title */
 .events-grid-title {
   font-size: 32px;

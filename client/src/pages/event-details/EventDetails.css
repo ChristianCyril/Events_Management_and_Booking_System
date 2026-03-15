@@ -20,6 +20,10 @@
   margin-left: 20px;
 }
 
+.fetch-err{
+  color: red;
+  font-size: 30px;
+}
 /* ── Banner Image ────────────────────────────────────────────────────────────── */
 .event-banner {
   width: 100%;

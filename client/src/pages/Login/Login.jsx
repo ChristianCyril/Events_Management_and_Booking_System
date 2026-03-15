@@ -39,7 +39,11 @@ function Login() {
         if(response.data){
           setAuth(response.data);
         }
-        navigate('/create-event');
+        if(response.data.role === 'admin'){
+          navigate('/dashboard')
+        }else{
+          navigate('/');
+        }
       }catch(error){
         if(error.response?.status === 401){
           setInvalidCred(true);

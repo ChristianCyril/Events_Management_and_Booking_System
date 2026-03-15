@@ -7,7 +7,7 @@ export default function GeneralHeader() {
       <div className="header-inner">
         <div className="nav-left">
           <div className="genHedTitle">Ngola Events</div>
-          <NavLink to="/homepage" className="nav-item">About</NavLink >
+          <NavLink to="" className="nav-item">About</NavLink >
         </div>
         <div className="header-search">
           <input
@@ -17,7 +17,7 @@ export default function GeneralHeader() {
           />
         </div>
         <nav className="nav-right">
-          <NavLink  to="/homepage" className="nav-item">Home</NavLink >
+          <NavLink  to="/" className="nav-item">Home</NavLink >
           <NavLink  to="/login" className="nav-item">Login</NavLink >
           <NavLink  to="/register" className="nav-item">Register</NavLink >
         </nav>

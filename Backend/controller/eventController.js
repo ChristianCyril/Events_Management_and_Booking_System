@@ -98,8 +98,8 @@ export const updateEvent = async (req, res) => {
 
     if (req.body.capacity !== undefined) {
       const bookedSeats = event.capacity - event.seatsRemaining;
-      event.capacity = req.body.capacity;
       event.seatsRemaining = Math.max(0, req.body.capacity - bookedSeats)    //doing this because new cap might be less than the number of seats left.
+      event.capacity = req.body.capacity;
     }
 
     if (req.body.location) {

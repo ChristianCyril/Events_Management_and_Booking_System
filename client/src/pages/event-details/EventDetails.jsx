@@ -1,52 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MapComponent from "../../components/map/MapComponent";
 import "./EventDetails.css";
 import GeneralHeader from "../../components/headers/GeneralHeader";
 import UserHeader from "../../components/headers/UserHeader";
 import useAuth from "../../hooks/useAuth";
+import { api } from "../../api/axios";
+import { useParams } from "react-router-dom";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+
+const initialValue = {
+  image: "",
+  title: "",
+  date: "",
+  time: "",
+  seatsRemaining: 0,
+  price: 0,
+  maxBookingsPerUser: 0,
+  description: "",
+  location: {
+    address: "",
+    lat: 0,
+    lng: 0,
+  },
+}
+
 
 export default function EventDetailsPage() {
+  const { id } = useParams();
   const { auth } = useAuth();
-  const event = {
-    image: "/images/concert.jpg",
-    title: "Summer Music Festival",
-    date: "Aug 12 2026",
-    time: "18:30",
-    seatsRemaining: 45,
-    price: 25,
-    maxBookingsPerUser: 4,
-    description:
-      "Join us for an unforgettable night filled with music, performances, and fun.",
-    location: {
-      address: "Yaoundé Cultural Center",
-      lat: 3.848,
-      lng: 11.502,
-    },
-  }
-
-
-  const maxAllowed = Math.min(event.maxBookingsPerUser, event.seatsRemaining);
+  const [event, setEvent] = useState(initialValue)
   const [quantity, setQuantity] = useState(1);
+  const [isfetching, setIsFetching] = useState(true)
+  const [isError, setIsError] = useState(false);
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await api.get(`/event/${id}`)
+        setEvent(response.data)
+      } catch (error) {
+        console.log(error)
+        setIsError(true);
+      } finally {
+        setIsFetching(false)
+      }
+    }
+    fetchEvent()
+  }, [])
 
+  //utils
+  const maxAllowed = Math.min(event.maxBookingsPerUser, event.seatsRemaining);
   const increase = () => {
     if (quantity < maxAllowed) setQuantity(q => q + 1);
   };
-
   const decrease = () => {
     if (quantity > 1) setQuantity(q => q - 1);
   };
-
   const total = quantity * event.price;
 
+  if (isfetching) return <LoadingSpinner />
   return (
     <>
-      {auth?.accessToken?<UserHeader/>:<GeneralHeader/>}
+      {auth?.accessToken ? <UserHeader /> : <GeneralHeader />}
       <div className="event-page-container">
         {/* LEFT SIDE */}
         <div className="event-left">
+          {isError&& <p className="fetch-err">Something went Wrong</p>}
           <img
             className="event-banner"
-            src={event.image}
+            src={event.image.url}
             alt={event.title}
           />
           <p className="event-title">{event.title}</p>
