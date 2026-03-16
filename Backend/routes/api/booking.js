@@ -4,9 +4,8 @@ import {createBooking,cancelBooking,getMyBookings} from '../../controller/bookin
 const router = express.Router()
 
 router.post('/',createBooking)
+router.get('/',getMyBookings)
+router.patch('/:id',cancelBooking)
 
-router.route('/:id')
-  .patch(cancelBooking)
-  .get(getMyBookings)
 
 export default router

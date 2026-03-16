@@ -1,0 +1,39 @@
+.booking-list {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.booking-list .booking-card {
+  margin-bottom: 14px;
+}
+
+.booking-list .booking-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Empty State ── */
+.booking-list__empty {
+  width: 100%;
+  padding: 72px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1.5px dashed #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-list__empty-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #aaaaaa;
+  margin: 0;
+}
+
+.booking-list__empty-sub {
+  font-size: 13px;
+  color: #cccccc;
+  margin: 0;
+}

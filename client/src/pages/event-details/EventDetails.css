@@ -76,7 +76,7 @@
   margin: 0;
 }
 
-.booking-card{
+.event-page-container.booking-card{
   width: 100%;
   max-width: 320px;
   padding: 24px;
@@ -92,25 +92,25 @@
   top: 90px;
 }
 
-.booking-title{
+.event-page-container.booking-title{
   font-size: 18px;
   font-weight: 600;
   color: #111;
 }
 
-.booking-text{
+.event-page-container.booking-text{
   font-size: 14px;
   color: #555;
   line-height: 1.5;
 }
 
-.booking-actions{
+.event-page-container.booking-actions{
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.register-btn{
+.event-page-container.register-btn{
   padding: 12px;
   border-radius: 8px;
   border: none;
@@ -121,12 +121,12 @@
   transition: 0.25s;
 }
 
-.register-btn:hover{
+.event-page-container.register-btn:hover{
   background: #ff6b00;
   color: white;
 }
 
-.login-btn{
+.event-page-container.login-btn{
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -137,7 +137,7 @@
   transition: 0.25s;
 }
 
-.login-btn:hover{
+.event-page-container.login-btn:hover{
   background: #ff6b00;
   color: white;
 }

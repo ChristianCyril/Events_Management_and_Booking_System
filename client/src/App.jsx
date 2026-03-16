@@ -3,7 +3,7 @@ import Register from './pages/registration/Register';
 import Login from './pages/Login/Login';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import AdminRoutes from './components/AdminRoutes';
-import Bookings from './pages/bookings/Bookings';
+import MyBookings from './pages/bookings/MyBookings';
 import PersistLogin from './components/PersistLogin';
 import Dashboard from './pages/admin/Dashboard';
 import Homepage from './pages/HomePage/HomePage';
@@ -28,7 +28,7 @@ function App() {
 
       <Route element={<PersistLogin />}>
         <Route element={<ProtectedRoutes />}>
-          <Route path='/bookings/:id' element={<Bookings />} />
+          <Route path='/bookings' element={<MyBookings/>} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route path='/create-event' element={<CreateEvent />} />

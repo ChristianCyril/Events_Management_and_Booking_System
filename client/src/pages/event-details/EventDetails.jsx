@@ -65,7 +65,7 @@ export default function EventDetailsPage() {
   const handleConfirmBooking = async () => {
     try {
       setBookingLoading(true)
-      await apiPrivate.post('/booking', {
+      await apiPrivate.post('/bookings', {
         eventId: event._id,
         quantity
       }, {

@@ -20,7 +20,7 @@ export default function UserHeader() {
         </div>
         <nav className="nav-right">
           <NavLink to="/" className="nav-item">Home</NavLink >
-          <NavLink to="/bookings:id" className="nav-item">Bookings</NavLink >
+          <NavLink to="/bookings" className="nav-item">Bookings</NavLink >
           <div
             className="logout"
             onClick={()=>logout()}
