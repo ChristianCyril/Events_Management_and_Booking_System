@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MapComponent from "../../components/map/MapComponent";
 import "./EventDetails.css";
 import GeneralHeader from "../../components/headers/GeneralHeader";
@@ -7,6 +8,8 @@ import useAuth from "../../hooks/useAuth";
 import { api } from "../../api/axios";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import formatDate from "../../utils/formatDate";
+
 
 const initialValue = {
   image: "",
@@ -26,6 +29,7 @@ const initialValue = {
 
 
 export default function EventDetailsPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { auth } = useAuth();
   const [event, setEvent] = useState(initialValue)
@@ -64,7 +68,7 @@ export default function EventDetailsPage() {
       <div className="event-page-container">
         {/* LEFT SIDE */}
         <div className="event-left">
-          {isError&& <p className="fetch-err">Something went Wrong</p>}
+          {isError && <p className="fetch-err">Something went Wrong</p>}
           <img
             className="event-banner"
             src={event.image.url}
@@ -74,7 +78,7 @@ export default function EventDetailsPage() {
           <div className="event-meta">
             <div>
               <span>Date</span>
-              <p>{event.date}</p>
+              <p>{formatDate(event.date)}</p>
             </div>
             <div>
               <span>Time</span>
@@ -103,32 +107,42 @@ export default function EventDetailsPage() {
           </div>
         </div>
         {/* RIGHT SIDE */}
-        <div className="event-right">
-          <div className="purchase-card">
-            <p className="price">
-              {event.price} FCFA
-            </p>
-            <p className="max-limit">
-              Max per user: {event.maxBookingsPerUser}
-            </p>
-            <div className="ticket-selector">
-              <button onClick={decrease}>-</button>
-              <span>{quantity}</span>
-              <button onClick={increase}>+</button>
+        {auth?.accessToken ?
+          <div className="event-right">
+            <div className="purchase-card">
+              <p className="price">
+                {event.price} FCFA
+              </p>
+              <p className="max-limit">
+                Max per user: {event.maxBookingsPerUser}
+              </p>
+              <div className="ticket-selector">
+                <button onClick={decrease}>-</button>
+                <span>{quantity}</span>
+                <button onClick={increase}>+</button>
+              </div>
+              <p className="available">
+                Available: {event.seatsRemaining}
+              </p>
+              <div className="total">
+                Total: {total} FCFA
+              </div>
+              <button className="purchase-btn">
+                Buy Ticket
+              </button>
             </div>
-            <p className="available">
-              Available: {event.seatsRemaining}
-            </p>
-            <div className="total">
-              Total: {total} FCFA
-            </div>
-            <button className="purchase-btn">
-              Buy Ticket
-            </button>
           </div>
-        </div>
+          : <div className="booking-card">
+            <h3 className="booking-title">Want to attend this event?</h3>
+            <p className="booking-text">
+              Create an account to book your spot and manage your reservations.
+            </p>
+            <div className="booking-actions">
+              <button className="register-btn" onClick={() => navigate("/register")}>Register</button>
+              <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
+            </div>
+          </div>}
       </div>
     </>
-
   );
 }
