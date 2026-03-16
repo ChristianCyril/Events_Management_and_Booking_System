@@ -9,8 +9,10 @@ import { api } from "../../api/axios";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import formatDate from "../../utils/formatDate";
-
-
+import BookingModal from "../../components/booking-modal/BookingModal";
+import useApiPrivate from "../../hooks/useApiPrivate";
+import ErrorModal from "../../components/feedback-modal/ErrorModal";
+import SuccessModal from "../../components/feedback-modal/SuccessModal";
 const initialValue = {
   image: "",
   title: "",
@@ -35,7 +37,16 @@ export default function EventDetailsPage() {
   const [event, setEvent] = useState(initialValue)
   const [quantity, setQuantity] = useState(1);
   const [isfetching, setIsFetching] = useState(true)
-  const [isError, setIsError] = useState(false);
+  const [isFetchError, setIsFetchError] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState(false)
+  const apiPrivate = useApiPrivate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showErrFBModal,setshowErrFBModal ] = useState(false)
+  const [showSuccFBModal,setshowSuccFBModal ] = useState(false)
+
+
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -43,13 +54,33 @@ export default function EventDetailsPage() {
         setEvent(response.data)
       } catch (error) {
         console.log(error)
-        setIsError(true);
+        setIsFetchError(true);
       } finally {
         setIsFetching(false)
       }
     }
     fetchEvent()
-  }, [])
+  }, []);
+
+  const handleConfirmBooking = async () => {
+    try {
+      setBookingLoading(true)
+      await apiPrivate.post('/booking', {
+        eventId: event._id,
+        quantity
+      }, {
+        headers: { 'Content-Type': 'application/json' }
+      })
+      setShowModal(false)
+      // Optional: show success message or redirect to my bookings
+      setshowSuccFBModal(true)
+    } catch (error) {
+      setErrorMessage(error?.response?.data?.message || "Something went wrong")
+      setshowErrFBModal(true)
+    } finally {
+      setBookingLoading(false)
+    }
+  }
 
   //utils
   const maxAllowed = Math.min(event.maxBookingsPerUser, event.seatsRemaining);
@@ -68,7 +99,7 @@ export default function EventDetailsPage() {
       <div className="event-page-container">
         {/* LEFT SIDE */}
         <div className="event-left">
-          {isError && <p className="fetch-err">Something went Wrong</p>}
+          {isFetchError && <p className="fetch-err">Something went Wrong</p>}
           <img
             className="event-banner"
             src={event.image.url}
@@ -127,9 +158,23 @@ export default function EventDetailsPage() {
               <div className="total">
                 Total: {total} FCFA
               </div>
-              <button className="purchase-btn">
-                Buy Ticket
+              <button
+                className="purchase-btn"
+                onClick={() => setShowModal(true)}
+                disabled={event.seatsRemaining === 0}
+              >
+                {event.seatsRemaining === 0 ? "Sold Out" : "Buy Ticket"}
               </button>
+              {showModal && (
+                <BookingModal
+                  event={event}
+                  quantity={quantity}
+                  total={total}
+                  onClose={() => setShowModal(false)}
+                  onConfirm={handleConfirmBooking}
+                  loading={bookingLoading}
+                />
+              )}
             </div>
           </div>
           : <div className="booking-card">
@@ -142,6 +187,12 @@ export default function EventDetailsPage() {
               <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
             </div>
           </div>}
+          {showErrFBModal&&(
+            <ErrorModal message={errorMessage} onClose={()=>setshowErrFBModal(false)}/>)
+          }
+          {showSuccFBModal&&(
+            <SuccessModal message={"Booking confirmed!"} onClose={()=>setshowSuccFBModal(false)}/>)
+          }
       </div>
     </>
   );

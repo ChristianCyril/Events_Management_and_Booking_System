@@ -1,5 +1,6 @@
 import Booking from '../model/Booking.js'
 import Event from '../model/Event.js'
+import mongoose from 'mongoose'
 
 //create booking
 export const createBooking = async (req, res) => {
@@ -27,7 +28,7 @@ export const createBooking = async (req, res) => {
       return res.status(400).json({ message: "Cannot book a past event" })
     }
     // Check Enough seats remaining 
-    if (Number(quantity )> event.seatsRemaining) {
+    if (Number(quantity) > event.seatsRemaining) {
       return res.status(400).json({
         message: `Only ${event.seatsRemaining} seat(s) remaining for this event`
       })
@@ -36,7 +37,7 @@ export const createBooking = async (req, res) => {
     const existingBookings = await Booking.aggregate([
       {
         $match: {
-          user: req.userId,
+          user: new mongoose.Types.ObjectId(req.userId),
           event: event._id,
           status: 'confirmed'
         }
@@ -48,7 +49,7 @@ export const createBooking = async (req, res) => {
         }
       }
     ])
-
+   
     const alreadyBooked = existingBookings[0]?.totalQuantity || 0
 
     if (alreadyBooked + quantity > event.maxBookingsPerUser) {

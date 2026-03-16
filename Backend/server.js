@@ -36,7 +36,7 @@ app.use('/event',event)
 app.use(verifyJWT);          //jwt verification middleware
 app.use('/admin/event', eventAdmin);
 app.use('/booking',booking)
-app.use('admin/booking',bookingAdmin)
+app.use('/admin/booking',bookingAdmin)
 
 
 mongoose.connection.once('open',()=>{
