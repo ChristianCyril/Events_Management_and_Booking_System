@@ -10,6 +10,21 @@ function formatDate(dateStr) {
 
 export default function BookingCard({ booking, onCancel }) {
   const { event, quantity, amountPaid, priceAtBooking, status, createdAt } = booking
+
+  if (!event) {
+    return (
+      <div className="booking-card booking-card--cancelled">
+        <div className="booking-card__info" style={{ padding: '20px' }}>
+          <p style={{ margin: 0, fontWeight: 700, color: '#aaaaaa' }}>
+            Event no longer available
+          </p>
+          <p style={{ margin: 0, fontSize: '12px', color: '#cccccc' }}>
+            This event was removed by the organiser.
+          </p>
+        </div>
+      </div>
+    )
+  }
   const isPast = new Date(event.date) < new Date()
 
   return (
@@ -51,7 +66,7 @@ export default function BookingCard({ booking, onCancel }) {
 
       <div className="booking-card__action">
         {status === "confirmed" && !isPast ? (
-          <button className="booking-card__cancel-btn" onClick={() => onCancel(booking._id) } disabled = {isPast}>
+          <button className="booking-card__cancel-btn" onClick={() => onCancel(booking._id) }>
             Cancel
           </button>
         ) : (
