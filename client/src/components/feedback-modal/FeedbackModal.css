@@ -1,0 +1,115 @@
+/* FeedbackModal.css */
+
+/* ── Overlay ─────────────────────────────────────────────────────────────────── */
+.feedback-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 16px;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Modal Box ───────────────────────────────────────────────────────────────── */
+.feedback-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 360px;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: feedback-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes feedback-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Icon Circle ─────────────────────────────────────────────────────────────── */
+.feedback-modal__icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.feedback-modal__icon--success {
+  background-color: #22c55e;
+  box-shadow: 0 0 0 10px rgba(34, 197, 94, 0.12);
+}
+
+.feedback-modal__icon--error {
+  background-color: #e53935;
+  box-shadow: 0 0 0 10px rgba(229, 57, 53, 0.12);
+}
+
+/* ── Title ───────────────────────────────────────────────────────────────────── */
+.feedback-modal__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.feedback-modal__title--success {
+  color: #15803d;
+}
+
+.feedback-modal__title--error {
+  color: #c62828;
+}
+
+/* ── Message ─────────────────────────────────────────────────────────────────── */
+.feedback-modal__message {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Button ──────────────────────────────────────────────────────────────────── */
+.feedback-modal__btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background-color 0.2s, transform 0.1s;
+  letter-spacing: 0.3px;
+}
+
+.feedback-modal__btn:active {
+  transform: scale(0.98);
+}
+
+.feedback-modal__btn--success {
+  background-color: #22c55e;
+  color: #ffffff;
+}
+
+.feedback-modal__btn--success:hover {
+  background-color: #16a34a;
+}
+
+.feedback-modal__btn--error {
+  background-color: #e53935;
+  color: #ffffff;
+}
+
+.feedback-modal__btn--error:hover {
+  background-color: #c62828;
+}
