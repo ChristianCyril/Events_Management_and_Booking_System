@@ -14,6 +14,7 @@ import logout from './routes/api/logout.js'
 import eventAdmin from './routes/api/event-admin.js';
 import event from './routes/api/event.js'
 import booking from './routes/api/booking.js'
+import bookingAdmin from './routes/api/booking-admin.js'
 
 
 connectDB();
@@ -35,7 +36,7 @@ app.use('/event',event)
 app.use(verifyJWT);          //jwt verification middleware
 app.use('/admin/event', eventAdmin);
 app.use('/booking',booking)
-
+app.use('admin/booking',bookingAdmin)
 
 
 mongoose.connection.once('open',()=>{

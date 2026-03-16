@@ -1,7 +1,7 @@
 import express from "express";
-import {createEvent,updateEvent,deleteEvent,getAdminEvents,getOneAdminEvents} from '../../../controller/eventController.js'
-import verifyRole from "../../../middleware/verifyRoles.js";
-import { upload } from '../../../config/cloudinary.js'
+import {createEvent,updateEvent,deleteEvent,getAdminEvents,getOneAdminEvents} from '../../controller/eventController.js'
+import verifyRole from "../../middleware/verifyRoles.js";
+import { upload } from '../../config/cloudinary.js'
 
 const router = express.Router();
 router.route('/')

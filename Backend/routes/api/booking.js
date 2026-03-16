@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/',createBooking)
 
 router.route('/:id')
-  .delete(cancelBooking)
+  .patch(cancelBooking)
   .get(getMyBookings)
 
 export default router
