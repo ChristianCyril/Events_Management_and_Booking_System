@@ -181,7 +181,7 @@ export const getMyBookings = async (req, res) => {
 export const getEventBookings = async (req, res) => {
   try {
     // Verify the event exists and belongs to this admin
-    const event = await Event.findById(req.params.eventId)
+    const event = await Event.findById(req.params.id)
 
     if (!event) {
       return res.status(404).json({ message: "Event not found" })
@@ -192,7 +192,7 @@ export const getEventBookings = async (req, res) => {
     }
 
     const bookings = await Booking.find({
-      event: req.params.eventId,
+      event: req.params.id,
       status: 'confirmed' // only show confirmed bookings to admin
     })
       .populate('user', 'firstname lastname email')
