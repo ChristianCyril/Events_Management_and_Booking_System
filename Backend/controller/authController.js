@@ -8,7 +8,7 @@ const handleAuthentication = async (req, res) => {
   const { email, password } = req.body;
   //finding the user
   const foundUser = await User.findOne({ email: email }).exec();
-  if (!foundUser) return res.status(401).json({ "message": "invalid login credentials" });
+  if (!foundUser) return res.status(404).json({ "message": "User not found" });
   //checking password
   const match = await bcrypt.compare(password, foundUser.password);
   if (!match) return res.status(401).json({ "message": "invalid password" });

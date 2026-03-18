@@ -15,6 +15,7 @@ import eventAdmin from './routes/api/event-admin.js';
 import event from './routes/api/event.js'
 import booking from './routes/api/booking.js'
 import bookingAdmin from './routes/api/booking-admin.js'
+import changePassword from './routes/api/changePassword.js'
 
 
 connectDB();
@@ -37,6 +38,7 @@ app.use(verifyJWT);          //jwt verification middleware
 app.use('/admin/event', eventAdmin);
 app.use('/bookings',booking)
 app.use('/admin/bookings',bookingAdmin)
+app.use('/change-password',changePassword)
 
 
 mongoose.connection.once('open',()=>{

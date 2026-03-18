@@ -1,0 +1,160 @@
+/* ── Wrapper ─────────────────────────────────────────────────────────────────── */
+.profile-dropdown {
+  position: relative;
+}
+
+/* ── Trigger Button ──────────────────────────────────────────────────────────── */
+.profile-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px 5px 5px;
+  background: none;
+  border: 1.5px solid #eeeeee;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.profile-dropdown__trigger:hover {
+  border-color: #ff6b00;
+  background-color: #fff9f5;
+}
+
+/* ── Avatar Circle ───────────────────────────────────────────────────────────── */
+.profile-dropdown__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ff6b00;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Name ────────────────────────────────────────────────────────────────────── */
+.profile-dropdown__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Chevron ─────────────────────────────────────────────────────────────────── */
+.profile-dropdown__chevron {
+  color: #aaaaaa;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.profile-dropdown__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown Menu ───────────────────────────────────────────────────────────── */
+.profile-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background-color: #ffffff;
+  border: 1.5px solid #eeeeee;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 999;
+  animation: dropdown-in 0.15s ease-out;
+}
+
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── User Info Block ─────────────────────────────────────────────────────────── */
+.profile-dropdown__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 12px 14px;
+}
+
+.profile-dropdown__user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ff6b00;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.profile-dropdown__user-info {
+  min-width: 0;
+}
+
+.profile-dropdown__user-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-dropdown__user-role {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #aaaaaa;
+  margin: 0;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────────── */
+.profile-dropdown__divider {
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+/* ── Menu Item ───────────────────────────────────────────────────────────────── */
+.profile-dropdown__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444444;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.profile-dropdown__item:hover {
+  background-color: #fff4ec;
+  color: #ff6b00;
+}
+
+.profile-dropdown__item svg {
+  flex-shrink: 0;
+  color: currentColor;
+}
