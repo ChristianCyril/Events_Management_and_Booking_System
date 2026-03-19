@@ -47,13 +47,23 @@ export const createEvent = async (req, res) => {
 
 
 export const handleGetEvents = async (req, res) => {
+  const {search} = req.query
+  const filter = {date:{$gt:new Date()}}
+  if (search && search.trim()) {
+      filter.$or = [
+        { title: { $regex: search.trim(), $options: 'i' } },
+        { description: { $regex: search.trim(), $options: 'i' } },
+        { 'location.address': { $regex: search.trim(), $options: 'i' } },
+      ]
+    }
   try {
-    const events = await Event.find().exec();
+    const events = await Event.find(filter).sort({ date: 1 });
     if (events) {
       res.status(200).json(events)
     }
   } catch (error) {
     console.error(error)
+    res.status(500).json({"message": 'Something went wrong'})
   }
 }
 
