@@ -2,20 +2,18 @@ import EventCard from './EventCard';
 import './EventsGrid.css';
 import useGetEvents from '../../hooks/useGetEvents'
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 function EventsGrid() {
-  const hookevents = useGetEvents()
-  const [events, setEvents] = useState([])
-  const isfetching = events.length === 0
-  
-  useEffect(()=>{
-    setEvents(hookevents);
-  },[hookevents])
-  
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get('search');
+  const url = search ? `/event?search=${search}`: '/event'
+  const { events, loading } = useGetEvents(url)
+ 
   return (
     <div className="events-grid-container">
       <h2 className="events-grid-title">Events</h2>
-      {isfetching ?
+      {loading?
         <div className="loadspinner">
           <img src="/loading.svg" />
         </div>

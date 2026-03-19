@@ -42,10 +42,8 @@ export default function EventDetailsPage() {
   const [bookingLoading, setBookingLoading] = useState(false)
   const apiPrivate = useApiPrivate()
   const [errorMessage, setErrorMessage] = useState('')
-  const [showErrFBModal,setshowErrFBModal ] = useState(false)
-  const [showSuccFBModal,setshowSuccFBModal ] = useState(false)
-
-
+  const [showErrFBModal, setshowErrFBModal] = useState(false)
+  const [showSuccFBModal, setshowSuccFBModal] = useState(false)
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -187,12 +185,12 @@ export default function EventDetailsPage() {
               <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
             </div>
           </div>}
-          {showErrFBModal&&(
-            <ErrorModal message={errorMessage} onClose={()=>setshowErrFBModal(false)}/>)
-          }
-          {showSuccFBModal&&(
-            <SuccessModal message={"Booking confirmed!"} onClose={()=>setshowSuccFBModal(false)}/>)
-          }
+        {showErrFBModal && (
+          <ErrorModal message={errorMessage} onClose={() => setshowErrFBModal(false)} />)
+        }
+        {showSuccFBModal && (
+          <SuccessModal message={"Booking confirmed!"} onClose={() => setshowSuccFBModal(false)} />)
+        }
       </div>
     </>
   );

@@ -1,7 +1,24 @@
-import { NavLink   } from "react-router-dom";
+import { NavLink, useNavigate   } from "react-router-dom";
 import "./GeneralHeader.css";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function GeneralHeader() {
+  const navigate = useNavigate()
+  const [searchInput, setSearchInput] = useState('');
+  const [hasSearched, setHasSearched] = useState(false)
+  useEffect(()=>{
+    if(!hasSearched) return
+    const timer = setTimeout(() => {
+      if(searchInput.trim()){
+        navigate(`/?search=${searchInput.trim()}`)
+      }else{
+        navigate('/')
+      }   
+    }, 500);
+    return () => clearTimeout(timer)
+  },[searchInput,navigate])
+  
   return (
      <header className="gen-header">
       <div className="header-inner">
@@ -16,6 +33,11 @@ export default function GeneralHeader() {
             type="text"
             placeholder="Search events..."
             className="search-input"
+            value={searchInput}
+            onChange={(e)=>{
+              setSearchInput(e.target.value)
+              setHasSearched(true)
+            } }
           />
         </div>
         <nav className="nav-right">
