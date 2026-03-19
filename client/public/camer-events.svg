@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 200" width="200" height="70" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="pinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff7f2a"></stop>
+      <stop offset="50%" stop-color="#e55e00"></stop>
+      <stop offset="100%" stop-color="#a34300"></stop>
+    </linearGradient>
+
+    <clipPath id="flagClip">
+      <circle cx="400" cy="300" r="75"></circle>
+    </clipPath>
+
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#e55e00" flood-opacity="0.35"></feDropShadow>
+    </filter>
+
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+    </filter>
+  </defs>
+
+  <!-- TEXT -->
+  <text x="20" y="115" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="60" font-weight="900" letter-spacing="3">
+    <tspan fill="#000000">CAMER</tspan>
+    <tspan fill="#e55e00">EVENTS</tspan>
+  </text>
+
+  <!-- ICON (MOVED CLOSER) -->
+  <g transform="translate(420,-100) scale(0.35)">
+    
+    <circle cx="400" cy="300" r="180" stroke="#e55e00" stroke-width="2" opacity="0.15" fill="none"></circle>
+    <circle cx="400" cy="300" r="260" stroke="#e55e00" stroke-width="2" opacity="0.08" fill="none"></circle>
+    <circle cx="400" cy="300" r="340" stroke="#e55e00" stroke-width="2" opacity="0.04" fill="none"></circle>
+
+    <circle cx="220" cy="180" r="8" fill="#007A5E" opacity="0.8"></circle>
+    <polygon points="580,480 595,495 575,505" fill="#007A5E" opacity="0.8"></polygon>
+    <rect x="620" y="200" width="12" height="12" fill="#CE1126" transform="rotate(45 620 200)" opacity="0.8"></rect>
+    <circle cx="250" cy="500" r="6" fill="#CE1126" opacity="0.8"></circle>
+    <rect x="200" y="380" width="14" height="14" fill="#FCD116" transform="rotate(20 200 380)" opacity="0.8"></rect>
+    <circle cx="580" cy="300" r="10" fill="#FCD116" opacity="0.8"></circle>
+    <polygon points="650,400 660,420 640,420" fill="#e55e00" transform="rotate(-15 650 400)"></polygon>
+    <circle cx="150" cy="280" r="5" fill="#e55e00"></circle>
+
+    <ellipse cx="400" cy="610" rx="55" ry="15" fill="#000000" opacity="0.5" filter="url(#blur)"></ellipse>
+
+    <path d="M 400 150 
+       A 150 150 0 0 0 250 300 
+       C 250 430 400 590 400 590 
+       C 400 590 550 430 550 300 
+       A 150 150 0 0 0 400 150 Z" fill="url(#pinGrad)" filter="url(#dropShadow)"></path>
+
+    <g clip-path="url(#flagClip)">
+      <rect x="325" y="225" width="150" height="150" fill="#ffffff"></rect>
+      <rect x="325" y="225" width="50" height="150" fill="#007A5E"></rect>
+      <rect x="375" y="225" width="50" height="150" fill="#CE1126"></rect>
+      <rect x="425" y="225" width="50" height="150" fill="#FCD116"></rect>
+
+      <path d="M 400 284 
+         L 405 294.5 L 416 296 
+         L 408 304 L 410 315.5 
+         L 400 310 
+         L 390 315.5 L 392 304 
+         L 384 296 L 395 294.5 Z" fill="#FCD116"></path>
+    </g>
+
+    <circle cx="400" cy="300" r="75" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.95"></circle>
+  </g>
+</svg>

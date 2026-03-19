@@ -8,7 +8,9 @@ export default function UserHeader() {
     <header className="header">
       <div className="header-inner">
         <div className="nav-left">
-          <div className="genHedTitle">Ngola Events</div>
+          <div className="app-logo">
+            <img src="./camer-events.svg" className="camer-events-logo"/>
+          </div>
           <NavLink to="/" className="nav-item">About</NavLink >
         </div>
         <div className="header-search">

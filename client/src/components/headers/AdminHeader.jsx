@@ -6,8 +6,9 @@ export default function AdminHeader() {
     <header className="adm-header">
       <div className="header-inner">
         <div className="nav-left">
-          <div className="genHedTitle">Ngola Events</div>
-          <div className="genHedTitle adm-label">Admin</div>
+          <div className="app-logo">
+            <img src="/camer-events.svg" className="camer-events-logo"/>
+          </div>
         </div>
         <div className="header-search">
           <input
@@ -17,7 +18,7 @@ export default function AdminHeader() {
           />
         </div>
         <nav className="nav-right">
-        <ProfileDropdown/>
+          <ProfileDropdown />
         </nav>
       </div>
     </header>
