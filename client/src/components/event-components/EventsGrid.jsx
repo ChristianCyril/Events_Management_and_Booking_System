@@ -1,7 +1,7 @@
 import EventCard from './EventCard';
 import './EventsGrid.css';
 import useGetEvents from '../../hooks/useGetEvents'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef} from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 function EventsGrid() {
@@ -9,9 +9,19 @@ function EventsGrid() {
   const search = searchParams.get('search');
   const url = search ? `/event?search=${search}`: '/event'
   const { events, loading } = useGetEvents(url)
+  const eventsGridRef = useRef(null)
+
+  useEffect(()=>{
+    if(search && eventsGridRef.current){
+      eventsGridRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  },[])
  
   return (
-    <div className="events-grid-container">
+    <div className="events-grid-container" ref={eventsGridRef}>
       <h2 className="events-grid-title">Events</h2>
       {loading?
         <div className="loadspinner">
@@ -24,7 +34,7 @@ function EventsGrid() {
           <p>No Available events now</p>
         </div>
         :
-        <div className="events-grid">
+        <div className="events-grid" >
           {events.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
