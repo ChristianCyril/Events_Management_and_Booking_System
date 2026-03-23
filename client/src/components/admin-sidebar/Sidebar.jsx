@@ -16,9 +16,9 @@ export default function Sidebar() {
             <span className="sidebar-label">New Event</span>
           </NavLink>
           
-          <NavLink to="/analytics" className="sidebar-item">
-            <img src="/metrics-icon.png" className="sidebar-icon" />
-            <span className="sidebar-label">Analytics</span>
+          <NavLink to="/history" className="sidebar-item">
+            <img src="/history-icon.png" className="sidebar-icon" />
+            <span className="sidebar-label">History</span>
           </NavLink>
         </nav>
       </div>

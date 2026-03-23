@@ -12,6 +12,7 @@ import CreateEvent from './pages/admin/CreateEvent';
 import EditEvent from './pages/admin/EditEvent';
 import ViewEvent from './pages/admin/ViewEvent';
 import ViewAttendees from './pages/admin/ViewAttendees';
+import EventsHistory from './pages/admin/EventsHistory';
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/view-event/:id' element={<ViewEvent />} />
           <Route path='/view-attendees/:eventId' element={<ViewAttendees />} />
+          <Route path='/history' element={<EventsHistory/>} />
         </Route>
       </Route>
 
