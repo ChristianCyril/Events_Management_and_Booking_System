@@ -99,7 +99,7 @@ export default function EditEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setServerError("")
-    setFormErrors(errors)
+    setFormErrors(validate(formValues))
     if (Object.keys(validate(formValues)).length > 0) return
 
     const formData = new FormData()

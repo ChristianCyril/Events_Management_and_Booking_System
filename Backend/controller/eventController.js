@@ -47,15 +47,15 @@ export const createEvent = async (req, res) => {
 
 
 export const handleGetEvents = async (req, res) => {
-  const {search} = req.query
-  const filter = {date:{$gt:new Date()}}
+  const { search } = req.query
+  const filter = { date: { $gt: new Date() } }
   if (search && search.trim()) {
-      filter.$or = [
-        { title: { $regex: search.trim(), $options: 'i' } },
-        { description: { $regex: search.trim(), $options: 'i' } },
-        { 'location.address': { $regex: search.trim(), $options: 'i' } },
-      ]
-    }
+    filter.$or = [
+      { title: { $regex: search.trim(), $options: 'i' } },
+      { description: { $regex: search.trim(), $options: 'i' } },
+      { 'location.address': { $regex: search.trim(), $options: 'i' } },
+    ]
+  }
   try {
     const events = await Event.find(filter).sort({ date: 1 });
     if (events) {
@@ -63,7 +63,7 @@ export const handleGetEvents = async (req, res) => {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).json({"message": 'Something went wrong'})
+    res.status(500).json({ "message": 'Something went wrong' })
   }
 }
 
@@ -161,7 +161,7 @@ export const deleteEvent = async (req, res) => {
 
     // If force is true or no confirmed bookings exist, delete the event
     await Event.findByIdAndDelete(req.params.id)
-   
+
     res.status(200).json({ message: `Event deleted successfully` })
 
   } catch (error) {
@@ -172,8 +172,18 @@ export const deleteEvent = async (req, res) => {
 
 
 export const getAdminEvents = async (req, res) => {
-  try {                              // req.userId is a mongoose ObjectId
-    const events = await Event.find({ createdBy: req.userId }).sort({ date: 1 }) // sort by date ascending -- soonest first
+  const { search } = req.query
+  const filter = { createdBy: req.userId }
+  if (search && search.trim()) {
+    filter.$or = [
+      { title: { $regex: search.trim(), $options: 'i' } },
+      { description: { $regex: search.trim(), $options: 'i' } },
+      { 'location.address': { $regex: search.trim(), $options: 'i' }}
+    ]
+  }
+
+  try {
+    const events = await Event.find(filter).sort({ date: 1 }) // sort by date ascending -- soonest first
     if (!events.length) {
       return res.status(200).json({ message: "You have not created any events yet", events: [] })
     }
@@ -186,11 +196,11 @@ export const getAdminEvents = async (req, res) => {
 
 
 export const getOneAdminEvents = async (req, res) => {
-  if(!req.params?.id) return res.status(400).json({"message": 'Event ID is required'});
-  try {                            
-    const event = await Event.findOne({_id:req.params.id, createdBy: req.userId }) 
+  if (!req.params?.id) return res.status(400).json({ "message": 'Event ID is required' });
+  try {
+    const event = await Event.findOne({ _id: req.params.id, createdBy: req.userId })
     if (!event) {
-      return res.status(404).json({ message: "Event not found", events: {}})
+      return res.status(404).json({ message: "Event not found", events: {} })
     }
     res.status(200).json(event)
   } catch (error) {

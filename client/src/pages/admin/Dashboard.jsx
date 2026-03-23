@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams  } from "react-router-dom";
 import './Dashboard.css'
 import AdminHeader from '../../components/headers/AdminHeader'
 import Sidebar from '../../components/admin-sidebar/Sidebar'
 import EventTile from "../../components/event-components/EventTile";
 import useGetAdminEvents from "../../hooks/useGetAdminEvents";
 import {isEventPassed,getBookedSeats} from '../../utils/eventUtils'
+import { } from "react-router-dom";
 
 
 function Dashboard() {
   const navigate = useNavigate();
-  const hookEvents = useGetAdminEvents();
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    setEvents(hookEvents);
-  }, [hookEvents])
+  const [searchParam] = useSearchParams();
+  const search = searchParam.get('search')
+  const url = search ? `/admin/event?search=${search}`:'/admin/event'
+  const {events, isFetching,setEvents} = useGetAdminEvents(url);
+  
 
   const handleEventDeleted = (deletedId) => {
     setEvents((prev) => prev.filter((event) => event._id !== deletedId));
@@ -79,7 +79,7 @@ function Dashboard() {
             </div>
           ) : (
             <div className="dashboard__grid">
-              {events.map((event) => (
+             { events.map((event) => (
                 <EventTile
                   key={event._id}
                   event={event}
