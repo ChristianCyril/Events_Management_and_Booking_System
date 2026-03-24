@@ -17,73 +17,35 @@ function isEventPassed(dateStr) {
   return new Date(dateStr) < new Date()
 }
 
-// Mock data -- replace with real API call
-const mockPassedEvents = [
-  {
-    _id: "e001",
-    title: "Jazz Night at Hilton",
-    date: "2025-02-15T00:00:00.000Z",
-    time: "20:00",
-    image: { url: "/images/concert.jpg" },
-    location: { address: "Hilton Hotel, Yaoundé" },
-    price: 3500,
-    capacity: 80,
-    seatsRemaining: 0,
-    confirmedBookings: 72,
-    cancelledBookings: 8,
-    revenue: 252000,
-  },
-  {
-    _id: "e002",
-    title: "Art Exhibition Opening",
-    date: "2025-01-20T00:00:00.000Z",
-    time: "10:00",
-    image: { url: "/images/concert.jpg" },
-    location: { address: "National Museum, Yaoundé" },
-    price: 1500,
-    capacity: 50,
-    seatsRemaining: 12,
-    confirmedBookings: 30,
-    cancelledBookings: 8,
-    revenue: 45000,
-  },
-  {
-    _id: "e003",
-    title: "Tech Conference 2025",
-    date: "2025-03-01T00:00:00.000Z",
-    time: "09:00",
-    image: { url: "/images/concert.jpg" },
-    location: { address: "Convention Center, Yaoundé" },
-    price: 2000,
-    capacity: 300,
-    seatsRemaining: 45,
-    confirmedBookings: 220,
-    cancelledBookings: 35,
-    revenue: 440000,
-  },
-  {
-    _id: "e004",
-    title: "Dance Showcase",
-    date: "2025-01-15T00:00:00.000Z",
-    time: "19:00",
-    image: { url: "/images/concert.jpg" },
-    location: { address: "Grand Theatre, Yaoundé" },
-    price: 2500,
-    capacity: 120,
-    seatsRemaining: 0,
-    confirmedBookings: 110,
-    cancelledBookings: 10,
-    revenue: 275000,
-  },
-]
+
 
 export default function EventsHistory() {
   const navigate = useNavigate()
-  const [events, setEvents] = useState(mockPassedEvents)
-  const [loading, setLoading] = useState(false)
+  const apiPrivate = useApiPrivate()
+  const [events, setEvents] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
+  useEffect(() => {
+    const getEvents = async ()=>{
+      try {
+      const response = await apiPrivate.get('/admin/event/history')
+      setEvents(response.data.events ?? response.data)
+    } catch (error) {
+      setErrorMessage(
+        error?.message ||
+        error?.response?.data?.message ||
+        "Something went wrong"
+      )
+    }finally{
+      setLoading(false)
+    }
+    }
+    getEvents();
+  }, [])
+  
   // Summary calculations
-  const totalEvents = events.length
+  const totalEvents = events.length 
   const totalConfirmed = events.reduce((sum, e) => sum + e.confirmedBookings, 0)
   const totalCancelled = events.reduce((sum, e) => sum + e.cancelledBookings, 0)
   const totalRevenue = events.reduce((sum, e) => sum + e.revenue, 0)
@@ -190,7 +152,7 @@ export default function EventsHistory() {
           </div>
         </div>
       </div>
-
+      {errorMessage && <p className="err-message">{errorMessage}</p>}
       {/* ── Events List ── */}
       {loading ? (
         <div className="history-page__skeletons">
@@ -279,7 +241,7 @@ export default function EventsHistory() {
               <div className="history-card__action">
                 <button
                   className="history-card__view-btn"
-                  onClick={() => navigate(`/admin/events/${event._id}/attendees`)}
+                  onClick={() => navigate(`/view-attendees/${event._id}`)}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />

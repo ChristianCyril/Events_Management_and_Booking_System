@@ -251,6 +251,11 @@
   justify-content: center;
 }
 
+.err-message{
+  font-size: 15px;
+  color: #e53935;
+}
+
 .history-card__view-btn {
   display: flex;
   align-items: center;

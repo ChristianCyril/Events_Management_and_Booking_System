@@ -1,6 +1,7 @@
 import Event from "../model/Event.js";
 import mongoose from "mongoose";
 import cloudinary from "../config/cloudinary.js";
+import Booking from "../model/Booking.js";
 
 
 export const createEvent = async (req, res) => {
@@ -173,12 +174,12 @@ export const deleteEvent = async (req, res) => {
 
 export const getAdminEvents = async (req, res) => {
   const { search } = req.query
-  const filter = { createdBy: req.userId }
+  const filter = { createdBy: req.userId, date:{$gt: new Date()} }
   if (search && search.trim()) {
     filter.$or = [
-      { title: { $regex: search.trim(), $options: 'i' } },
+      { title: { $regex: search.trim(), $options: 'i'} },
       { description: { $regex: search.trim(), $options: 'i' } },
-      { 'location.address': { $regex: search.trim(), $options: 'i' }}
+      { 'location.address': { $regex: search.trim(), $options: 'i' } }
     ]
   }
 
@@ -195,7 +196,7 @@ export const getAdminEvents = async (req, res) => {
 }
 
 
-export const getOneAdminEvents = async (req, res) => {
+export const getOneAdminEvent = async (req, res) => {
   if (!req.params?.id) return res.status(400).json({ "message": 'Event ID is required' });
   try {
     const event = await Event.findOne({ _id: req.params.id, createdBy: req.userId })
@@ -203,6 +204,59 @@ export const getOneAdminEvents = async (req, res) => {
       return res.status(404).json({ message: "Event not found", events: {} })
     }
     res.status(200).json(event)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" })
+  }
+}
+
+
+export const getAdminEventHistory = async (req, res) => {
+  if(!req.userId) return res.status(403).json({"message": 'You are not Allowed to do this'})
+  try {
+    // Find all past events created by this admin
+    const events = await Event.find({
+      createdBy: req.userId,
+      date: { $lt: new Date() } // date is in the past
+    }).sort({ date: -1 }) // most recent first
+
+    if (!events.length) {
+      return res.status(200).json({ message: "No past events found", events: [] })
+    }
+
+    // For each event, count its bookings
+    const eventsWithStats = await Promise.all(
+      events.map(async (event) => {
+        const bookingStats = await Booking.aggregate([
+          {
+            $match: {
+              event: event._id
+            }
+          },
+          {
+            $group: {
+              _id: "$status",
+              count: { $sum: 1 },
+              totalAmount: { $sum: "$amountPaid" }
+            }
+          }
+        ])
+
+        // Extract confirmed and cancelled from aggregate result
+        const confirmed = bookingStats.find((s) => s._id === "confirmed")
+        const cancelled = bookingStats.find((s) => s._id === "cancelled")
+
+        return {
+          ...event.toObject(),
+          confirmedBookings: confirmed?.count || 0,
+          cancelledBookings: cancelled?.count || 0,
+          revenue: confirmed?.totalAmount || 0,
+        }
+      })
+    )
+
+    res.status(200).json(eventsWithStats)
+
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server error" })

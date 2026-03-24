@@ -12,6 +12,7 @@ function Login() {
   const [invalidCred, setInvalidCred] = useState(false);
   const [somethingWrong, setSomethingWrong] = useState(false);
   const {setAuth, auth} = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const navigate = useNavigate()
   const handleChange = (e)=>{
     const {name,value} = e.target;
@@ -31,6 +32,7 @@ function Login() {
   }
 
   const handleSubmit= async(e)=>{
+    setIsLoggingIn(true)
     e.preventDefault();
     setFormErrors(validate(formValues));
     if(Object.keys(formErrors).length === 0){
@@ -55,6 +57,8 @@ function Login() {
         setTimeout(()=>{
             setSomethingWrong(false);
           },2000)
+      }finally{
+        setIsLoggingIn(false)
       }
     }
   }
@@ -97,7 +101,7 @@ function Login() {
           />
           <label htmlFor="showPassword">Show password</label>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isLoggingIn} >{!isLoggingIn?'Login':'Verifying....'}</button>
       </form>
     </div>
   );

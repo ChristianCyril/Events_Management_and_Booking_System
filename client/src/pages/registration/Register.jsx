@@ -9,6 +9,7 @@ function Register() {
   const initialValues = { firstname: "", lastname: "", email: "", password: "", conPassword: "" };
   const [formValues, setformValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
+  const [isRegistering, setIsRegistering] = useState(false)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,6 +18,7 @@ function Register() {
   }
 
   const handleSubmit = async (e) => {
+    setIsRegistering(true)
     e.preventDefault();
     setFormErrors(validate(formValues));
     if (Object.keys(formErrors).length === 0) {
@@ -31,6 +33,8 @@ function Register() {
        
       } catch (error) {
         console.log(error.message);
+      }finally{
+        setIsRegistering(false)
       }
     }
   }
@@ -129,7 +133,7 @@ function Register() {
           />
           <label htmlFor="showPassword">Show password</label>
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled ={isRegistering}>{isRegistering?'Registering...':'Sign Up'}</button>
       </form>
     </div>
   );
