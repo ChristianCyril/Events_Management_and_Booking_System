@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 
 //create booking
 export const createBooking = async (req, res) => {
-  // Validate request body ───────────────────────────────────────────────────
   if (!req.body.eventId) {
     return res.status(400).json({ message: "Event ID is required" })
   }
@@ -18,16 +17,13 @@ export const createBooking = async (req, res) => {
   const { eventId, quantity } = req.body
 
   try {
-    // Check Event exists
     const event = await Event.findById(eventId)
     if (!event) {
       return res.status(404).json({ message: "Event not found" })
     }
-    // Check Event has not passed 
     if (new Date(event.date) < new Date()) {
       return res.status(400).json({ message: "Cannot book a past event" })
     }
-    // Check Enough seats remaining 
     if (Number(quantity) > event.seatsRemaining) {
       return res.status(400).json({
         message: `Only ${event.seatsRemaining} seat(s) remaining for this event`
@@ -45,7 +41,7 @@ export const createBooking = async (req, res) => {
       {
         $group: {
           _id: null,
-          totalQuantity: { $sum: '$quantity' }         // Sum all confirmed bookings this user already has for this event
+          totalQuantity: { $sum: '$quantity' }        
         }
       }
     ])
@@ -58,8 +54,6 @@ export const createBooking = async (req, res) => {
       })
     }
 
-    // All checks passed: create booking 
-    // Snapshot the price at booking time 
     const priceAtBooking = event.price
     const amountPaid = quantity * priceAtBooking
 
@@ -96,34 +90,25 @@ export const createBooking = async (req, res) => {
 
 //cancel booking
 export const cancelBooking = async (req, res) => {
-  // Validate booking id
   if (!req.params.id) {
     return res.status(400).json({ message: "Booking ID is required" })
   }
-
-  try {
-    // Find the booking first
+  try { 
     const booking = await Booking.findById(req.params.id)
 
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" })
     }
 
-    // Make sure the booking belongs to the logged in user
-    // A user should never be able to cancel someone else's booking
     if (!booking.user.equals(req.userId)) {
       return res.status(403).json({ message: "You are not authorised to cancel this booking" })
     }
 
-    // Check the booking is not already cancelled
     if (booking.status === 'cancelled') {
       return res.status(400).json({ message: "This booking is already cancelled" })
     }
 
-    // Check the event has not already passed
-    // No point releasing seats on a past event
     const event = await Event.findById(booking.event)
-
     if (!event) {
       return res.status(404).json({ message: "Associated event not found" })
     }
@@ -132,11 +117,9 @@ export const cancelBooking = async (req, res) => {
       return res.status(400).json({ message: "Cannot cancel a booking for a past event" })
     }
 
-    // All checks passed -- cancel the booking
     booking.status = 'cancelled'
     await booking.save()
 
-    // Release the seats back to the event
     event.seatsRemaining += booking.quantity
     await event.save()
 
@@ -180,7 +163,6 @@ export const getMyBookings = async (req, res) => {
 // admin gets bookings for events created by him
 export const getEventBookings = async (req, res) => {
   try {
-    // Verify the event exists and belongs to this admin
     const event = await Event.findById(req.params.id)
 
     if (!event) {

@@ -14,7 +14,7 @@ function EventCard({event}){
           <p><span>Date: </span>{formatDate(event.date)}</p>
           <p><span>Time: </span> {event.time}</p>
           <p><span>Location: </span> {event.location.address}</p>
-          <p><span>Price: </span>{event.price} <span className='currency'>FCFA</span></p>
+          <p><span>Price: </span>{event.price===0?'FREE':event.price} <span className='currency'>{event.price===0?'':'FCFA'}</span></p>
           <p><span>Seats Available: </span> {event.seatsRemaining}</p>
         </div>
       </div>

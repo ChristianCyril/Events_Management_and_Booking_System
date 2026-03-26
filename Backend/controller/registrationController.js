@@ -9,7 +9,7 @@ const handleRegistration = async (req, res)=>{
   const hashedPassword = await bcrypt.hash(req.body.password,10);
   //check for duplicate email
   const result = await User.findOne({email: req.body.email});
-  if(result) return res.sendStatus(409)
+  if(result) return res.status(409).json({"message":'This user email already exist'})
   //create and save new user
   try{
     const newUser = await User.create(
@@ -19,9 +19,9 @@ const handleRegistration = async (req, res)=>{
         email: req.body.email,
         password: hashedPassword
       });
-      res.status(201).json({newUser});
+      res.sendStatus(201)
   }catch(error){
-    res.status(400).json({"message": error.message})
+    res.status(500).json({"message": 'Something went wrong'})
   }
 }
 

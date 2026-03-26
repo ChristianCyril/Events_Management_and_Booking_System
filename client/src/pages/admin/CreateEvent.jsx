@@ -6,6 +6,7 @@ import MapPicker from "../../components/map/MapPicker"
 import "./EventForm.css"
 import AdminHeader from '../../components/headers/AdminHeader'
 import Sidebar from '../../components/admin-sidebar/Sidebar'
+import dayjs from 'dayjs'
 
 const initialValues = {
   title: "",
@@ -46,7 +47,9 @@ export default function CreateEvent() {
     if (!values.title) errors.title = "Title is required"
     if (!values.description) errors.description = "Description is required"
     if (!values.date) errors.date = "Date is required"
+    if (values.date < new Date()) errors.date = "You cannot create an event in the past"
     if (!values.time) errors.time = "Time is required"
+    if (values.time < dayjs().format('HH:mm')) errors.time = "Time cannot be in the past"
     if (values.price === "") errors.price = "Price is required"
     if (values.capacity === "") errors.capacity = "Capacity is required"
     if (values.maxBookingsPerUser === "") errors.maxBookingsPerUser = "Max bookings per user is required"
@@ -77,7 +80,7 @@ export default function CreateEvent() {
     try {
       setLoading(true)
       await apiPrivate.post("/admin/event", formData);
-      //navigate("/dashboard")
+      navigate("/dashboard")
     } catch (error) {
       setServerError(error?.response?.data?.message || "Something went wrong")
     } finally {

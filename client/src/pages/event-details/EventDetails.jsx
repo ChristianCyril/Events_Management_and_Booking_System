@@ -62,16 +62,27 @@ export default function EventDetailsPage() {
 
   const handleConfirmBooking = async () => {
     try {
-      setBookingLoading(true)
-      await apiPrivate.post('/bookings', {
-        eventId: event._id,
-        quantity
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      })
-      setShowModal(false)
-      // Optional: show success message or redirect to my bookings
-      setshowSuccFBModal(true)
+      if (event.price === 0) {
+        setBookingLoading(true)
+        await apiPrivate.post('/bookings', {
+          eventId: event._id,
+          quantity
+        }, {
+          headers: { 'Content-Type': 'application/json' }
+        })
+        setshowSuccFBModal(true)
+      } else {
+        setBookingLoading(true)
+        await apiPrivate.post('/bookings', {
+          eventId: event._id,
+          quantity
+        }, {
+          headers: { 'Content-Type': 'application/json' }
+        })
+        setShowModal(false)
+        setshowSuccFBModal(true)
+      }
+
     } catch (error) {
       setErrorMessage(error?.response?.data?.message || "Something went wrong")
       setshowErrFBModal(true)
@@ -158,8 +169,14 @@ export default function EventDetailsPage() {
               </div>
               <button
                 className="purchase-btn"
-                onClick={() => setShowModal(true)}
-                disabled={event.seatsRemaining === 0}
+                onClick={() => {
+                  if(event.price === 0){
+                    handleConfirmBooking()
+                  }else{
+                    setShowModal(true)
+                  }   
+                }}
+                disabled={event.seatsRemaining === 0 || bookingLoading}
               >
                 {event.seatsRemaining === 0 ? "Sold Out" : "Buy Ticket"}
               </button>

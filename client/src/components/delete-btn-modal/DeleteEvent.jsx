@@ -62,7 +62,6 @@ export default function DeleteEventButton({ eventId, onDeleted }) {
         onClick={handleDeleteClick}
         disabled={loading}
       >
-        {loading ? "Deleting..." : "Delete"}
       </button>
 
       {showModal && createPortal(

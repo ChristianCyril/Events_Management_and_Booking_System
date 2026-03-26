@@ -14,8 +14,7 @@ const handleRefresh = async (req, res) => {
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
     (error, decoded) => {
-      if (error) {
-        console.error(error);
+      if (error || foundUser._id.toString() !== decoded.userId) {
         return res.sendStatus(401);
       }
       const accessToken = jwt.sign(
