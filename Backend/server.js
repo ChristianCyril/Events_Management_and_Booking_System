@@ -16,12 +16,14 @@ import event from './routes/api/event.js'
 import booking from './routes/api/booking.js'
 import bookingAdmin from './routes/api/booking-admin.js'
 import changePassword from './routes/api/changePassword.js'
-
+import reqLogger from './middleware/reqLogger.js';
+import errorHandler from './middleware/errorHandler.js';
 
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 3500;
 //middlewares
+app.use(reqLogger);
 app.use(cors(corsOption));
 app.use(express.json());
 app.use(cookieParser());
@@ -40,6 +42,7 @@ app.use('/bookings',booking)
 app.use('/admin/bookings',bookingAdmin)
 app.use('/change-password',changePassword)
 
+app.use(errorHandler)
 
 mongoose.connection.once('open',()=>{
   app.listen(PORT,()=>{
