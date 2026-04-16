@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-//routes
+//public routes
 app.use('/register',registration);
 app.use('/login',authentication);
 app.use('/refresh',refresh);
